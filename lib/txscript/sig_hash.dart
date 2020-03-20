@@ -104,9 +104,6 @@ Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
 
       prefixBuf.setUint32(offset, prevOut.index, Endian.little);
       offset += 4;
-      prefixBuf.setUint8(offset, prevOut.tree);
-      offset += 1;
-
       var sequence = txIn.sequence;
 
       if (((hashType & SIG_HASH_MASK) == SIG_HASH_NONE ||
@@ -132,9 +129,6 @@ Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
 
       offset = transaction.writeUInt64LE(prefixBuf, value.toInt(), offset);
 
-      prefixBuf.setUint16(offset, txOut.version, Endian.little);
-      offset += 2;
-
       offset = transaction.writeVarInt(prefixBuf, pkScript.length, offset);
 
       offset = transaction.copyBytes(prefixBuf, pkScript, offset);
@@ -142,9 +136,6 @@ Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
 
     prefixBuf.setUint32(offset, tx.lockTime, Endian.little);
     offset += 4;
-    prefixBuf.setUint32(offset, tx.expiry, Endian.little);
-    offset += 4;
-
     prefixHash = chainhash.hashH(prefixBuf.buffer.asUint8List());
   }
 

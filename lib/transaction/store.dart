@@ -27,7 +27,7 @@ class Store {
 
         var txIn = TxIn(
           previousOutPoint: OutPoint(hash: hash, index: utxo.vout),
-          valueIn: utxo.amount,
+//          valueIn: utxo.amount,
         );
 
         currentTotal += amt;

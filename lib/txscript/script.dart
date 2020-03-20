@@ -2,9 +2,6 @@ part of bitcoin.txscript;
 
 const int MAX_OPS_PER_SCRIPT = 255;
 
-/// Max number of non-push operations.
-const int MAX_PUB_KEYS_PER_MULTI_SIG = 20;
-
 /// Multisig can't have more sigs than this.
 const int MAX_SCRIPT_ELEMENT_SIZE = 2048;
 

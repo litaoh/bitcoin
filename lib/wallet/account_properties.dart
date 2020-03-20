@@ -6,9 +6,10 @@ class AccountProperties {
   final int lastReturnedExternalIndex;
   final int lastReturnedInternalIndex;
 
-  AccountProperties(
-      {this.lastUsedExternalIndex,
-      this.lastUsedInternalIndex,
-      this.lastReturnedExternalIndex,
-      this.lastReturnedInternalIndex});
+  AccountProperties({
+    this.lastUsedExternalIndex,
+    this.lastUsedInternalIndex,
+    this.lastReturnedExternalIndex,
+    this.lastReturnedInternalIndex,
+  });
 }

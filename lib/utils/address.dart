@@ -19,16 +19,6 @@ Address decodeAddress(String address) {
   throw FormatException('unknown address type');
 }
 
-chaincfg.Params _detectNetworkForAddress(int netID) {
-  if (netID == chaincfg.mainnet.scriptHashAddrID) {
-    return chaincfg.mainnet;
-  } else if (netID == chaincfg.testnet3.scriptHashAddrID) {
-    return chaincfg.testnet3;
-  }
-  return null;
-}
-
-
 class Address {
   Uint8List _hash;
   chaincfg.Params _net;

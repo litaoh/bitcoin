@@ -8,7 +8,8 @@ class ScriptBuilder {
 
   ScriptBuilder add(int code) {
     if (_script.length + 1 > MAX_SCRIPT_SIZE) {
-      throw FormatException('adding an opcode would exceed the maximum allowed canonical script length of $MAX_SCRIPT_SIZE');
+      throw FormatException(
+          'adding an opcode would exceed the maximum allowed canonical script length of $MAX_SCRIPT_SIZE');
     }
     _script.add(code);
     return this;

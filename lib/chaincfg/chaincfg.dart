@@ -23,13 +23,14 @@ Params mainnet = Params(
   legacyCoinType: 20,
 );
 
-
 Params _current;
+
 /// set current network
-void setNet(Params net){
+void setNet(Params net) {
   _current = net;
 }
+
 /// get current network
-Params getNet(){
+Params getNet() {
   return _current ?? mainnet;
 }

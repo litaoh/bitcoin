@@ -1,9 +1,7 @@
 part of bitcoin.transaction;
 
-const int MAX_UINT_8 = 1 << 8 - 1;
 const int MAX_UINT_16 = 1 << 16 - 1;
 const int MAX_UINT_32 = 1 << 32 - 1;
-const int MAX_UINT_64 = 1 << 64 - 1;
 
 /// ReadVarInt reads a variable length integer from r and returns it as a uint64.
 List<int> readVarInt(ByteData buf, [int offset = 0]) {

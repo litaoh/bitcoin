@@ -93,7 +93,7 @@ Uint8List signatureScript(transaction.MsgTx tx, int idx, Uint8List subScript,
 
 List<dynamic> sign(chaincfg.Params net, transaction.MsgTx tx, int idx,
     Uint8List subScript, int hashType, KeyClosure kdb, ScriptClosure sdb) {
-  var data = null;//extractPkScriptAddrs(DEFAULT_SCRIPT_VERSION, subScript, net);
+  var data = extractPkScriptAddrs(subScript, net);
   int cls = data[0];
   List<utils.Address> addrs = data[1];
   int nRequired = data[2];
@@ -146,7 +146,8 @@ Uint8List mergeScripts(
 
       var script = sigPops[sigPops.length - 1].data;
 
-      var data = null;//extractPkScriptAddrs(DEFAULT_SCRIPT_VERSION, script, net);
+      var data =
+          null; //extractPkScriptAddrs(DEFAULT_SCRIPT_VERSION, script, net);
       int cls = data[0];
       List<utils.Address> addrs = data[1];
       nRequired = data[2];

@@ -6,7 +6,7 @@ part of bitcoin.transaction;
 /// require changes to the generated transaction.  Thus, using the wire
 /// constant for the generated transaction version could allow creation
 /// of invalid transactions for the updated version.
-const int GENERATED_TX_VERSION = 1;
+const int GENERATED_TX_VERSION = 2;
 
 class AuthoredTx {
   MsgTx tx;
@@ -79,7 +79,6 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
     }
 
     var unsignedTransaction = MsgTx(
-      serType: TX_SERIALIZE_FULL,
       version: GENERATED_TX_VERSION,
       txIn: inputDetail.inputs,
       txOut: outputs,
@@ -94,10 +93,6 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
       fetchChange.script();
       var changeScript = fetchChange.hash;
 
-//      if (changeScript.length > txsizes.P2WPKH_PK_SCRIPT_SIZE) {
-//        throw FormatException(
-//            'fee estimation requires change scripts no larger than P2WPKH output scripts');
-//      }
       var change = TxOut(
         value: utils.Amount.fromUnit(changeAmount),
         pkScript: changeScript,
@@ -108,6 +103,6 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
     return AuthoredTx(
         tx: unsignedTransaction,
         prevScripts: inputDetail.scripts,
-        totalInput: inputDetail.amount);
+        totalInput: inputDetail.amount,);
   }
 }

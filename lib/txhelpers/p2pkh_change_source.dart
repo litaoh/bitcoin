@@ -7,9 +7,7 @@ class P2PKHChangeSource extends ChangeSource {
   @override
   void script() {
     var changeAddress = wallet.newInternalAddress(account, GAP_POLICY_WRAP);
-    print(changeAddress.hash160());
     _hash = txscript.payToAddrScript(changeAddress);
-    print(_hash);
     _version = txscript.DEFAULT_SCRIPT_VERSION;
   }
 

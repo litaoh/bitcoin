@@ -26,7 +26,7 @@ Uint8List mnemonicToSeed(String input) {
   Uint8List seed;
   var len = words.length;
   if (len == 1) {
-    seed = utils.hexToBytes(words[0]);
+    seed = utils.hexToBytes(words);
   } else if (len > 1) {
     seed = decodeMnemonics(words);
   }

@@ -13,14 +13,14 @@ void main() {
     wallet.from([
       {
         'txid':
-            '8bfa8f66b229d91ce057e4fa7dcb26510b1d11316f8e5aa1cf1e111f0c2767ba',
-        'vout': 1,
-        'amount': 10000000 / 1e8,
+            'f8b49d7c12d0d7e42d5740015ecd24a94da4ab7f957052ac82a9987fd0b740ac',
+        'vout': 0,
+        'amount': 0.001,
         'scriptPubKey': demos.bytesToHex(demos
             .decodeAddress('2NBDEbsoYte4bnxDXhQqA46y31mQjy9D226')
             .hash160())
       }
     ]);
-//    wallet.transaction(0, 10000 / 1e8, '2NBDEbsoYte4bnxDXhQqA46y31mQjy9D226');
+    wallet.transaction(0, 0.0001, '2NBDEbsoYte4bnxDXhQqA46y31mQjy9D226');
   });
 }

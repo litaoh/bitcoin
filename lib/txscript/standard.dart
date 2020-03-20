@@ -2,8 +2,6 @@ part of bitcoin.txscript;
 
 const int MAX_DATA_CARRIER_SIZE = 256;
 
-/// Classes of script payment known about in the blockchain.
-
 const int NON_STANDARD_TY = 0;
 
 /// None of the recognized forms.
@@ -12,26 +10,16 @@ const int PUB_KEY_TY = 1;
 /// Pay pubkey.
 const int PUB_KEY_HASH_TY = 2;
 
-/// Pay pubkey hash.
-const int SCRIPT_HASH_TY = 3;
+const int WITNESS_V0_PUB_KEY_HASH_TY = 3;
 
-/// Pay to script hash.
-const int MULTI_SIG_TY = 4;
+/// Pay pubkey hash.
+const int SCRIPT_HASH_TY = 4;
+
+const int WITNESS_V0_SCRIPT_HASH_TY = 5;
 
 /// Multi signature.
-const int NULL_DATA_TY = 5;
+const int NULL_DATA_TY = 7;
 
-/// Empty data-only (provably prunable).
-const int STAKE_SUBMISSION_TY = 6;
-
-/// Stake submission.
-const int STAKE_GEN_TY = 7;
-
-/// Stake generation
-const int STAKE_REVOCATION_TY = 8;
-
-/// Stake revocation.
-const int STAKE_SUB_CHANGE_TY = 9;
 
 /// Change for stake submission tx.
 const int PUB_KEY_ALT_TY = 10;
@@ -39,13 +27,6 @@ const int PUB_KEY_ALT_TY = 10;
 /// Alternative signature pubkey.
 const int PUB_KEY_HASH_ALT_TY = 11;
 
-/// Alternative signature pubkey hash.
-const int SIDE_CREATE_TY = 12;
-
-/// Side chain create contract tx.
-const int SIDE_CALL_TY = 13;
-
-/// Side chain call contract tx.
 
 bool isSmallInt(OpCode op) {
   if (op.value == OP_0 || (op.value >= OP_1 && op.value <= OP_16)) {
@@ -61,16 +42,97 @@ int asSmallInt(OpCode op) {
 
   return op.value - (OP_1 - 1);
 }
+
+/// payToWitnessScriptHashScript creates a new script to pay to a version 0
+/// script hash witness program. The passed hash is expected to be valid.
+Uint8List payToWitnessScriptHashScript(Uint8List scriptHash) {
+  return ScriptBuilder().add(OP_0).addData(scriptHash).script();
+}
+
 /// payToScriptHashScript creates a new script to pay a transaction output to a
 /// script hash. It is expected that the input is a valid hash.
-Uint8List _payToScriptHashScript(Uint8List hash){
+Uint8List _payToScriptHashScript(Uint8List hash) {
   return ScriptBuilder().add(OP_HASH160).addData(hash).add(OP_EQUAL).script();
 }
+
 /// PayToAddrScript creates a new script to pay a transaction output to a the
 /// specified address.
-Uint8List payToAddrScript(utils.Address addr){
-  if(addr is utils.AddressScriptHash){
+Uint8List payToAddrScript(utils.Address addr) {
+  if (addr is utils.AddressScriptHash) {
     return _payToScriptHashScript(addr.scriptAddress());
   }
-  throw FormatException('unable to generate payment script for unsupported address type');
+  throw FormatException(
+      'unable to generate payment script for unsupported address type');
+}
+
+bool isPubkey(List<ParsedOpcode> pops){
+  /// Valid pubkeys are either 33 or 65 bytes.
+  return pops.length == 2 &&
+      (pops[0].data.length == 33 || pops[0].data.length == 65) && pops[1].opcode.value == OP_CHECKSIG;
+}
+
+bool isPubkeyHash(List<ParsedOpcode> pops) {
+return pops.length == 5 &&
+pops[0].opcode.value == OP_DUP &&
+pops[1].opcode.value == OP_HASH160 &&
+pops[2].opcode.value == OP_DATA_20 &&
+pops[3].opcode.value == OP_EQUALVERIFY &&
+pops[4].opcode.value == OP_CHECKSIG;
+
+}
+bool isNullData(List<ParsedOpcode> pops)  {
+
+  var l = pops.length;
+  if (l == 1 && pops[0].opcode.value == OP_RETURN) {
+    return true;
+  }
+
+  return l == 2 && pops[0].opcode.value == OP_RETURN && (isSmallInt(pops[1].opcode) || pops[1].opcode.value <=
+OP_PUSHDATA4) &&
+pops[1].data.length <= MAX_DATA_CARRIER_SIZE;
+}
+
+
+int _typeOfScript(List<ParsedOpcode> pops) {
+  if (isPubkey(pops)) {
+    return PUB_KEY_TY;
+  } else if (isPubkeyHash(pops)) {
+    return PUB_KEY_HASH_TY;
+  } else if (isWitnessPubKeyHash(pops)) {
+    return WITNESS_V0_PUB_KEY_HASH_TY;
+  } else if (isScriptHash(pops)) {
+    return SCRIPT_HASH_TY;
+  } else if (isWitnessScriptHash(pops)) {
+    return WITNESS_V0_SCRIPT_HASH_TY;
+  } else if (isNullData(pops)) {
+    return NULL_DATA_TY;
+  }
+return NON_STANDARD_TY;
+}
+
+/// ExtractPkScriptAddrs returns the type of script, addresses and required
+/// signatures associated with the passed PkScript.  Note that it only works for
+/// 'standard' transaction script types.  Any data such as public keys which are
+/// invalid are omitted from the results.
+List<dynamic> extractPkScriptAddrs(Uint8List pkScript, chaincfg.Params net) {
+  var addrs = <utils.Address>[];
+  int requiredSigs;
+  List<ParsedOpcode> pops;
+  try {
+    pops = parseScript(pkScript);
+  }catch(_){
+    return [NON_STANDARD_TY, addrs];
+  }
+
+  utils.Address addr;
+  var scriptClass = _typeOfScript(pops);
+  switch (scriptClass) {
+    case SCRIPT_HASH_TY:
+      requiredSigs = 1;
+      addr = utils.AddressScriptHash(scriptHash: pops[1].data, net: net);
+      addrs.add(addr);
+      break;
+  }
+
+  return [scriptClass, addrs, requiredSigs];
 }
