@@ -5,6 +5,7 @@ part 'params.dart';
 
 Params testnet3 = Params(
   name: 'testnet3',
+  bech32HRPSegwit: 'tb',
   pubKeyHashAddrID: 0x6f,
   scriptHashAddrID: 0xc4,
   privateKeyID: 0xef,
@@ -15,6 +16,7 @@ Params testnet3 = Params(
 
 Params mainnet = Params(
   name: 'mainnet',
+  bech32HRPSegwit: 'bc',
   pubKeyHashAddrID: 0x00,
   scriptHashAddrID: 0x05,
   privateKeyID: 0x80,

@@ -17,6 +17,14 @@ class WalletBTC {
     _manager = AddressManager(seed: seed, net: net);
     _net = net;
 
+
+    _manager.putChainedAddress(utils.AddressPubKeyHash(
+      hash: _manager
+          .deriveKeyFromPath(0, 0, 0, true)
+          .pubKeyHash,
+      net: _net,
+    ).encode(), 0, 0, 0);
+    _manager.putChainedAddress(getAddress(0), 0, 0, 0);
     _store = trans.Store();
   }
 
@@ -49,9 +57,14 @@ class WalletBTC {
   utils.Address _getAddressByChild(hdkeychain.ExtendedKey xpub,
       [int index = 0]) {
     hdkeychain.ExtendedKey key = xpub.child(index);
-    var pkHash = txscript.payToWitnessScriptHashScript(key.pubKeyHash);
     return utils.AddressScriptHash(
-        scriptHash: hdkeychain.hash160(Uint8List.fromList(pkHash)), net: _net);
+      scriptHash: hdkeychain.hash160(Uint8List.fromList(
+          txscript.payToAddrScript(utils.AddressWitnessPubKeyHash(
+        scriptHash: key.pubKeyHash,
+        net: _net,
+      )))),
+      net: _net,
+    );
   }
 
   String getAddress(int account) {
@@ -68,12 +81,14 @@ class WalletBTC {
     if (utxos?.isEmpty ?? true) {
       throw FormatException('Utxos is Empty.');
     }
+
     for (var i = 0; i < utxos.length; i++) {
       _store.put(
         txid: chainhash.Hash.fromString(utxos[i]['txid']),
         vout: utxos[i]['vout'],
         amount: utils.Amount(double.parse(utxos[i]['amount'].toString())),
-        pubKey: utils.hexToBytes(utxos[i]['scriptPubKey']),
+        pubKey:
+            txscript.payToAddrScript(utils.decodeAddress(utxos[i]['address'])),
       );
     }
     return this;
@@ -140,7 +155,14 @@ class WalletBTC {
           }
           return script;
         }
-        return addr.scriptAddress();
+        var info = _manager.fetchAddress(addr.encode());
+
+        return txscript.payToAddrScript(utils.AddressPubKeyHash(
+          hash: _manager
+              .deriveKeyFromPath(info.account, info.branch, info.index, true)
+              .pubKeyHash,
+          net: _net,
+        ));
       });
 
       if ((hashType & txscript.SIG_HASH_SINGLE) != txscript.SIG_HASH_SINGLE ||
@@ -162,7 +184,7 @@ class WalletBTC {
       int account, trans.MsgTx unsignedTx, List<Uint8List> prevScripts) {
     var txBuf = ByteData(unsignedTx.serializeSize());
     unsignedTx.serialize(txBuf);
-    print(utils.bytesToHex(txBuf.buffer.asUint8List()));
+
     var tx = trans.MsgTx.fromBytes(txBuf);
 
     var additionalPkScripts = <String, Uint8List>{};

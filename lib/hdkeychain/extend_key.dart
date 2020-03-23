@@ -138,6 +138,7 @@ class ExtendedKey {
 
   Uint8List ECPubKey(bool compressed) {
     var pubKey = ecc.curve.decodePoint(pubKeyBytes);
+
     return pubKey.getEncoded(compressed);
   }
 

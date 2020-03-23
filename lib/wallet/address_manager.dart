@@ -37,7 +37,7 @@ class AddressManager {
     return _accountStorage.putAddressInfo(address, account, branch, index);
   }
 
-  AddressInfo _fetchAddress(String address) {
+  AddressInfo fetchAddress(String address) {
     return _accountStorage.getAddressInfo(address);
   }
 
@@ -45,7 +45,7 @@ class AddressManager {
     return _accountStorage.getAccountProperties(account) ?? AccountProperties();
   }
 
-  hdkeychain.ExtendedKey _deriveKeyFromPath(
+  hdkeychain.ExtendedKey deriveKeyFromPath(
       int account, int branch, int index, bool isPrivate) {
     var accKey = getAccountKey(account);
 
@@ -66,9 +66,9 @@ class AddressManager {
       return _returnedPrivKeys[address];
     }
 
-    var info = _fetchAddress(address);
+    var info = fetchAddress(address);
 
-    var xpriv = _deriveKeyFromPath(info.account, info.branch, info.index, true);
+    var xpriv = deriveKeyFromPath(info.account, info.branch, info.index, true);
 
     var key = xpriv.ECPrivKey();
     _returnedPrivKeys[address] = key;

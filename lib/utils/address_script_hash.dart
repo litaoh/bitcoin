@@ -2,9 +2,8 @@ part of bitcoin.utils;
 
 class AddressScriptHash extends Address {
   int _netID;
-  AddressScriptHash({Uint8List scriptHash, chaincfg.Params net}) {
-    _hash = scriptHash;
-    _net = net;
+  AddressScriptHash({Uint8List scriptHash, chaincfg.Params net})
+      : super(hash: scriptHash, net: net) {
     _netID = net.scriptHashAddrID;
   }
 

@@ -53,7 +53,7 @@ List<int> _sigToList(List<int> r, List<int> s) {
   return res;
 }
 
-pointycastle.ECSignature ecSign(pointycastle.ECPrivateKey key, Uint8List hash) {
+pointycastle.ECSignature ECSign(pointycastle.ECPrivateKey key, Uint8List hash) {
   var signer = ECDSASigner(null, HMac(SHA256Digest(), 64));
   var pkp = PrivateKeyParameter(key);
   signer.init(true, pkp);
@@ -74,9 +74,9 @@ Uint8List rawTxInSignature(transaction.MsgTx tx, int idx, Uint8List subScript,
     parsedScript = parseScript(subScript);
   } catch (_) {}
 
-  var hash = calcSignatureHash(parsedScript, hashType, tx, idx, null);
+  var hash = calcSignatureHash(parsedScript, hashType, tx, idx);
 
-  var sig = ecSign(key, hash);
+  var sig = ECSign(key, hash);
   var ret = _sigToList(
       utils.intToBytes(sig.r).toList(), utils.intToBytes(sig.s).toList());
   ret.add(hashType);
@@ -88,7 +88,7 @@ Uint8List signatureScript(transaction.MsgTx tx, int idx, Uint8List subScript,
   var sig = rawTxInSignature(tx, idx, subScript, hashType, privKey);
 
   var pkScript = (hdkeychain.ecc.G * privKey.d).getEncoded(compress);
-  return ScriptBuilder().addData(sig).addData(pkScript).script();
+  return ScriptBuilder().addData(sig).script();
 }
 
 List<dynamic> sign(chaincfg.Params net, transaction.MsgTx tx, int idx,
@@ -97,18 +97,16 @@ List<dynamic> sign(chaincfg.Params net, transaction.MsgTx tx, int idx,
   int cls = data[0];
   List<utils.Address> addrs = data[1];
   int nRequired = data[2];
-
   switch (cls) {
     case PUB_KEY_HASH_TY:
       var resp = kdb.getKey(addrs[0]);
       var script = signatureScript(
           tx, idx, subScript, hashType, resp.key, resp.compressed);
 
-      return [script, cls, addrs, nRequired];
+      return <dynamic>[script, cls, addrs, nRequired];
     case SCRIPT_HASH_TY:
       var script = sdb.getScript(addrs[0]);
-
-      return [script, cls, addrs, nRequired];
+      return <dynamic>[script, cls, addrs, nRequired];
     case NULL_DATA_TY:
       throw FormatException("can't sign NULLDATA transactions");
       break;
@@ -146,8 +144,7 @@ Uint8List mergeScripts(
 
       var script = sigPops[sigPops.length - 1].data;
 
-      var data =
-          null; //extractPkScriptAddrs(DEFAULT_SCRIPT_VERSION, script, net);
+      var data = extractPkScriptAddrs(script, net);
       int cls = data[0];
       List<utils.Address> addrs = data[1];
       nRequired = data[2];
@@ -188,6 +185,7 @@ Uint8List signTxOutput(
 
   if (cls == SCRIPT_HASH_TY) {
     data = sign(net, tx, idx, sigScript, hashType, kdb, sdb);
+    print(data);
     Uint8List realSigScript = data[0];
 
     var builder = ScriptBuilder();

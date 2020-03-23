@@ -12,7 +12,6 @@ const int TX_VERSION = 1;
 /// of a transaction input can be.
 const int MAX_TX_IN_SEQUENCE_NUM = 0xffffffff;
 
-
 /// SequenceLockTimeGranularity is the defined time based granularity
 /// for seconds-based relative time locks.  When converting from seconds
 /// to a sequence number, the value is right shifted by this amount,
@@ -41,7 +40,12 @@ const int MAX_TX_OUT_PER_MESSAGE =
     (MAX_MESSAGE_PAYLOAD ~/ MIN_TX_OUT_PAYLOAD) + 1;
 
 const int MAX_WITNESS_ITEM_SIZE = 11000;
+const int BASE_ENCODING = 1;
 
+// WitnessEncoding encodes all messages other than transaction messages
+// using the default Bitcoin wire protocol specification. For transaction
+// messages, the new encoding format detailed in BIP0144 will be used.
+const int WITNESS_ENCODING = 2;
 class MsgTx {
   int version;
   List<TxIn> txIn;
@@ -60,6 +64,10 @@ class MsgTx {
 
   void addTxOut(TxOut to) {
     txOut.add(to);
+  }
+
+  int serializeSizeStripped(){
+    return _baseSize();
   }
 
   /// baseSize returns the serialized size of the transaction without accounting
@@ -127,7 +135,7 @@ class MsgTx {
     }
     if (count > MAX_TX_IN_PER_MESSAGE) {
       throw FormatException('MsgTx.BtcDecode: '
-          'too many input transactions to fit into ' +
+              'too many input transactions to fit into ' +
           'max message size [count ${count}, max ${MAX_TX_IN_PER_MESSAGE}]');
     }
 
@@ -144,13 +152,11 @@ class MsgTx {
     count = data[0];
     offset = data[1];
 
-
     if (count > MAX_TX_OUT_PER_MESSAGE) {
       throw FormatException('MsgTx.BtcDecode:'
           'too many output transactions to fit into '
           'max message size [count ${count}, max ${MAX_TX_OUT_PER_MESSAGE}]');
     }
-
 
     txOut = <TxOut>[];
     for (var i = 0; i < count; i++) {
@@ -162,7 +168,6 @@ class MsgTx {
     if (flag != 0) {
       for (var i = 0; i < txIn.length; i++) {
         data = readVarInt(buf, offset);
-        print(data);
         var witCount = data[0];
         offset = data[1];
         txIn[i].witness = <Uint8List>[];
@@ -180,11 +185,11 @@ class MsgTx {
     offset += 4;
   }
 
-  void encode(ByteData buf, [int offset = 0]) {
+  void encode(ByteData buf, [int offset = 0, int enc = WITNESS_ENCODING]) {
     buf.setUint32(offset, version, Endian.little);
     offset += 4;
 
-    var doWitness = hasWitness();
+    var doWitness = enc == WITNESS_ENCODING && hasWitness();
     if (doWitness) {
       buf.setUint16(offset, 1);
       offset += 2;
@@ -213,12 +218,15 @@ class MsgTx {
     buf.setUint32(offset, lockTime ?? 0, Endian.little);
   }
 
-  void serialize(ByteData buf) {
-    encode(buf, 0);
+  void serializeNoWitness(ByteData buf){
+    encode(buf, 0, BASE_ENCODING);
   }
 
-  chainhash.Hash txHash() {
+  void serialize(ByteData buf) {
+    encode(buf, 0, WITNESS_ENCODING);
   }
+
+  chainhash.Hash txHash() {}
 
   static MsgTx fromBytes(ByteData buf) {
     var msgTx = MsgTx();
@@ -226,7 +234,6 @@ class MsgTx {
     return msgTx;
   }
 }
-
 
 List<dynamic> _readScript(
     ByteData buf, int maxAllowed, int offset, String fieldName) {
@@ -289,10 +296,12 @@ int _writeTxIn(ByteData buf, TxIn ti, int offset) {
   offset += 4;
   return offset;
 }
+
 /// readTxOut reads the next sequence of bytes from r as a transaction output
 /// (TxOut).
 int _readTxOut(ByteData buf, TxOut to, int offset) {
-  to.value = utils.Amount.fromUnit(BigInt.from(buf.getUint32(offset, Endian.little)));
+  to.value =
+      utils.Amount.fromUnit(BigInt.from(buf.getUint32(offset, Endian.little)));
   offset += 8;
 
   var data = _readScript(
@@ -301,13 +310,15 @@ int _readTxOut(ByteData buf, TxOut to, int offset) {
   offset = data[1];
   return offset;
 }
+
 int _writeTxOut(ByteData buf, TxOut to, int offset) {
   buf.setUint64(offset, to.value.toCoin().toInt(), Endian.little);
   offset += 8;
   return writeVarBytes(buf, to.pkScript, offset);
 }
 
-int _writeTxWitness(ByteData buf, int version, List<Uint8List> wit, int offset) {
+int _writeTxWitness(
+    ByteData buf, int version, List<Uint8List> wit, int offset) {
   offset = writeVarInt(buf, wit.length, offset);
   for (var i = 0; i < wit.length; i++) {
     offset = writeVarBytes(buf, wit[i], offset);

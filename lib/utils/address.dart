@@ -22,10 +22,13 @@ Address decodeAddress(String address) {
 class Address {
   Uint8List _hash;
   chaincfg.Params _net;
-  Address();
+  Address({Uint8List hash, chaincfg.Params net}) {
+    _hash = hash;
+    _net = net;
+  }
   @override
   String toString() {
-    return super.toString();
+    return encode();
   }
 
   String encode() {

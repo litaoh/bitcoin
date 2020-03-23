@@ -101,8 +101,9 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
     }
 
     return AuthoredTx(
-        tx: unsignedTransaction,
-        prevScripts: inputDetail.scripts,
-        totalInput: inputDetail.amount,);
+      tx: unsignedTransaction,
+      prevScripts: inputDetail.scripts,
+      totalInput: inputDetail.amount,
+    );
   }
 }

@@ -44,7 +44,7 @@ int sigHashWitnessSerializeSize(
 }
 
 Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
-    transaction.MsgTx tx, int idx, chainhash.Hash cachedPrefix) {
+    transaction.MsgTx tx, int idx) {
   if ((hashType & SIG_HASH_MASK == SIG_HASH_SINGLE) &&
       (idx >= tx.txOut.length)) {
     throw FormatException(
@@ -52,125 +52,50 @@ Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
   }
 
   removeOpcode(prevOutScript, OP_CODESEPARATOR);
-
   Uint8List signScript;
   try {
     signScript = unparseScript(prevOutScript);
   } catch (_) {
     print(_);
   }
+  var txBuf = ByteData(tx.serializeSize());
+  tx.serialize(txBuf);
 
-  var txIns = tx.txIn;
-
-  var signTxInIdx = idx;
-  if ((hashType & SIG_HASH_ANY_ONE_CAN_PAY) != 0) {
-    txIns = tx.txIn.sublist(idx, idx + 1);
-    signTxInIdx = 0;
+  var txCopy = transaction.MsgTx.fromBytes(txBuf);
+  txCopy.txIn[idx].signatureScript = signScript;
+  for(var i = 0; i < txCopy.txIn.length; i++){
+    if (i != idx) {
+      txCopy.txIn[i].signatureScript = null;
+    }
   }
 
-  chainhash.Hash prefixHash;
-  if (chaincfg.SIG_HASH_OPTIMIZATION &&
-      (cachedPrefix != null) &&
-      hashType & SIG_HASH_MASK == SIG_HASH_ALL &&
-      hashType & SIG_HASH_ANY_ONE_CAN_PAY == 0) {
-    prefixHash = cachedPrefix;
-  } else {
-    var txOuts = tx.txOut;
-    var sig = hashType & SIG_HASH_MASK;
-
-    if (sig == SIG_HASH_NONE) {
-      txOuts = null;
-    } else if (sig == SIG_HASH_SINGLE) {
-      txOuts = tx.txOut.sublist(0, idx + 1);
-    }
-
-    var size = sigHashPrefixSerializeSize(hashType, txIns, txOuts, idx);
-
-    var prefixBuf = ByteData(size);
-    var version = tx.version | SIG_HASH_SERIALIZE_PREFIX << 16;
-
-    var offset = 0;
-    prefixBuf.setUint32(offset, version, Endian.little);
-    offset += 4;
-
-    offset = transaction.writeVarInt(prefixBuf, txIns.length, offset);
-
-    for (var i = 0; i < txIns.length; i++) {
-      var txIn = txIns[i];
-      var prevOut = txIn.previousOutPoint;
-      var hash = prevOut.hash.cloneBytes();
-
-      offset = transaction.copyBytes(prefixBuf, hash, offset);
-
-      prefixBuf.setUint32(offset, prevOut.index, Endian.little);
-      offset += 4;
-      var sequence = txIn.sequence;
-
-      if (((hashType & SIG_HASH_MASK) == SIG_HASH_NONE ||
-              (hashType & SIG_HASH_MASK) == SIG_HASH_SINGLE) &&
-          (i != signTxInIdx)) {
-        sequence = 0;
+  switch (hashType & SIG_HASH_MASK) {
+    case SIG_HASH_NONE:
+      txCopy.txOut.clear();
+      for(var i = 0; i < txCopy.txIn.length; i++){
+        if (i != idx) {
+          txCopy.txIn[i].sequence = 0;
+        }
       }
-      prefixBuf.setUint32(offset, sequence, Endian.little);
-      offset += 4;
-    }
+      break;
+    case SIG_HASH_SINGLE:
+      txCopy.txOut = txCopy.txOut.sublist(0, idx+1);
 
-    offset = transaction.writeVarInt(prefixBuf, txOuts.length, offset);
-
-    for (var i = 0; i < txOuts.length; i++) {
-      var txOut = txOuts[i];
-
-      var value = txOut.value.toCoin();
-      var pkScript = txOut.pkScript;
-      if (((hashType & SIG_HASH_MASK) == SIG_HASH_SINGLE) && (i != idx)) {
-        value = BigInt.from(-1);
-        pkScript = Uint8List(0);
+      for (var i = 0; i < idx; i++) {
+        txCopy.txOut[i].value = utils.Amount(-1);
+        txCopy.txOut[i].pkScript = null;
       }
 
-      offset = transaction.writeUInt64LE(prefixBuf, value.toInt(), offset);
-
-      offset = transaction.writeVarInt(prefixBuf, pkScript.length, offset);
-
-      offset = transaction.copyBytes(prefixBuf, pkScript, offset);
-    }
-
-    prefixBuf.setUint32(offset, tx.lockTime, Endian.little);
-    offset += 4;
-    prefixHash = chainhash.hashH(prefixBuf.buffer.asUint8List());
+      for(var i = 0; i < txCopy.txIn.length; i++){
+        if (i != idx) {
+          txCopy.txIn[i].sequence = 0;
+        }
+      }
+      break;
   }
 
-  var size = sigHashWitnessSerializeSize(hashType, txIns, signScript);
-
-  var witnessBuf = ByteData(size);
-
-  var version = tx.version | SIG_HASH_SERIALIZE_WITNESS << 16;
-
-  var offset = 0;
-  witnessBuf.setUint32(offset, version, Endian.little);
-  offset += 4;
-  offset = transaction.writeVarInt(witnessBuf, txIns.length, offset);
-
-  for (var i = 0; i < txIns.length; i++) {
-    var commitScript = signScript;
-    if (i != signTxInIdx) {
-      commitScript = Uint8List(0);
-    }
-
-    offset = transaction.writeVarInt(witnessBuf, commitScript.length, offset);
-    offset = transaction.copyBytes(witnessBuf, commitScript, offset);
-  }
-  var witnessHash = chainhash.hashH(witnessBuf.buffer.asUint8List());
-
-  var sigHashBuf = ByteData(chainhash.HASH_SIZE * 2 + 4);
-  offset = 0;
-  sigHashBuf.setUint32(offset, hashType, Endian.little);
-  offset += 4;
-
-  var hash = prefixHash.cloneBytes();
-  offset = transaction.copyBytes(sigHashBuf, hash, offset);
-
-  hash = witnessHash.cloneBytes();
-  offset = transaction.copyBytes(sigHashBuf, hash, offset);
-  offset += hash.length;
-  return chainhash.hashB(sigHashBuf.buffer.asUint8List());
+  ByteData wbuf = ByteData(txCopy.serializeSizeStripped() + 4);
+  txCopy.serializeNoWitness(wbuf);
+  wbuf.setUint32(wbuf.lengthInBytes - 4, hashType, Endian.little);
+  return chainhash.hashB(chainhash.hashB(wbuf.buffer.asUint8List()));
 }

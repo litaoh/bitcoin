@@ -17,4 +17,6 @@ import '../base58check/base58check.dart';
 part './amount.dart';
 part './address.dart';
 part './address_script_hash.dart';
+part './address_witness_pub_key_hash.dart';
+part './address_pub_key_hash.dart';
 part './numbers.dart';

@@ -20,13 +20,11 @@ const int WITNESS_V0_SCRIPT_HASH_TY = 5;
 /// Multi signature.
 const int NULL_DATA_TY = 7;
 
-
 /// Change for stake submission tx.
 const int PUB_KEY_ALT_TY = 10;
 
 /// Alternative signature pubkey.
 const int PUB_KEY_HASH_ALT_TY = 11;
-
 
 bool isSmallInt(OpCode op) {
   if (op.value == OP_0 || (op.value >= OP_1 && op.value <= OP_16)) {
@@ -43,55 +41,78 @@ int asSmallInt(OpCode op) {
   return op.value - (OP_1 - 1);
 }
 
+/// _payToPubKeyHashScript creates a new script to pay a transaction
+/// output to a 20-byte pubkey hash. It is expected that the input is a valid
+/// hash.
+Uint8List _payToPubKeyHashScript(Uint8List pubKeyHash) {
+  return ScriptBuilder()
+      .add(OP_DUP)
+      .add(OP_HASH160)
+      .addData(pubKeyHash)
+      .add(OP_EQUALVERIFY)
+      .add(OP_CHECKSIG)
+      .script();
+}
+
+/// _payToWitnessPubKeyHashScript creates a new script to pay to a version 0
+/// pubkey hash witness program. The passed hash is expected to be valid.
+Uint8List _payToWitnessPubKeyHashScript(Uint8List pubKeyHash) {
+  return ScriptBuilder().add(OP_0).addData(pubKeyHash).script();
+}
+
 /// payToWitnessScriptHashScript creates a new script to pay to a version 0
 /// script hash witness program. The passed hash is expected to be valid.
 Uint8List payToWitnessScriptHashScript(Uint8List scriptHash) {
   return ScriptBuilder().add(OP_0).addData(scriptHash).script();
 }
 
-/// payToScriptHashScript creates a new script to pay a transaction output to a
+/// _payToScriptHashScript creates a new script to pay a transaction output to a
 /// script hash. It is expected that the input is a valid hash.
 Uint8List _payToScriptHashScript(Uint8List hash) {
   return ScriptBuilder().add(OP_HASH160).addData(hash).add(OP_EQUAL).script();
 }
 
-/// PayToAddrScript creates a new script to pay a transaction output to a the
+/// payToAddrScript creates a new script to pay a transaction output to a the
 /// specified address.
 Uint8List payToAddrScript(utils.Address addr) {
-  if (addr is utils.AddressScriptHash) {
+  if (addr is utils.AddressPubKeyHash) {
+    return _payToPubKeyHashScript(addr.scriptAddress());
+  } else if (addr is utils.AddressScriptHash) {
     return _payToScriptHashScript(addr.scriptAddress());
+  } else if (addr is utils.AddressWitnessPubKeyHash) {
+    return _payToWitnessPubKeyHashScript(addr.scriptAddress());
   }
   throw FormatException(
       'unable to generate payment script for unsupported address type');
 }
 
-bool isPubkey(List<ParsedOpcode> pops){
+bool isPubkey(List<ParsedOpcode> pops) {
   /// Valid pubkeys are either 33 or 65 bytes.
   return pops.length == 2 &&
-      (pops[0].data.length == 33 || pops[0].data.length == 65) && pops[1].opcode.value == OP_CHECKSIG;
+      (pops[0].data.length == 33 || pops[0].data.length == 65) &&
+      pops[1].opcode.value == OP_CHECKSIG;
 }
 
 bool isPubkeyHash(List<ParsedOpcode> pops) {
-return pops.length == 5 &&
-pops[0].opcode.value == OP_DUP &&
-pops[1].opcode.value == OP_HASH160 &&
-pops[2].opcode.value == OP_DATA_20 &&
-pops[3].opcode.value == OP_EQUALVERIFY &&
-pops[4].opcode.value == OP_CHECKSIG;
-
+  return pops.length == 5 &&
+      pops[0].opcode.value == OP_DUP &&
+      pops[1].opcode.value == OP_HASH160 &&
+      pops[2].opcode.value == OP_DATA_20 &&
+      pops[3].opcode.value == OP_EQUALVERIFY &&
+      pops[4].opcode.value == OP_CHECKSIG;
 }
-bool isNullData(List<ParsedOpcode> pops)  {
 
+bool isNullData(List<ParsedOpcode> pops) {
   var l = pops.length;
   if (l == 1 && pops[0].opcode.value == OP_RETURN) {
     return true;
   }
 
-  return l == 2 && pops[0].opcode.value == OP_RETURN && (isSmallInt(pops[1].opcode) || pops[1].opcode.value <=
-OP_PUSHDATA4) &&
-pops[1].data.length <= MAX_DATA_CARRIER_SIZE;
+  return l == 2 &&
+      pops[0].opcode.value == OP_RETURN &&
+      (isSmallInt(pops[1].opcode) || pops[1].opcode.value <= OP_PUSHDATA4) &&
+      pops[1].data.length <= MAX_DATA_CARRIER_SIZE;
 }
-
 
 int _typeOfScript(List<ParsedOpcode> pops) {
   if (isPubkey(pops)) {
@@ -107,7 +128,7 @@ int _typeOfScript(List<ParsedOpcode> pops) {
   } else if (isNullData(pops)) {
     return NULL_DATA_TY;
   }
-return NON_STANDARD_TY;
+  return NON_STANDARD_TY;
 }
 
 /// ExtractPkScriptAddrs returns the type of script, addresses and required
@@ -120,17 +141,24 @@ List<dynamic> extractPkScriptAddrs(Uint8List pkScript, chaincfg.Params net) {
   List<ParsedOpcode> pops;
   try {
     pops = parseScript(pkScript);
-  }catch(_){
+  } catch (_) {
     return [NON_STANDARD_TY, addrs];
   }
-
-  utils.Address addr;
   var scriptClass = _typeOfScript(pops);
   switch (scriptClass) {
+    case PUB_KEY_HASH_TY:
+      requiredSigs = 1;
+      addrs.add(utils.AddressPubKeyHash(hash: pops[2].data, net: net));
+      break;
     case SCRIPT_HASH_TY:
       requiredSigs = 1;
-      addr = utils.AddressScriptHash(scriptHash: pops[1].data, net: net);
-      addrs.add(addr);
+
+      addrs.add(utils.AddressScriptHash(scriptHash: pops[1].data, net: net));
+      break;
+    case WITNESS_V0_PUB_KEY_HASH_TY:
+      requiredSigs = 1;
+      addrs.add(
+          utils.AddressWitnessPubKeyHash(scriptHash: pops[1].data, net: net));
       break;
   }
 
