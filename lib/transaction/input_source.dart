@@ -1,6 +1,5 @@
 part of bitcoin.transaction;
 
-/// ignore: prefer_generic_function_type_aliases
 typedef InputDetail SelectInputs(utils.Amount target);
 
 class InputSource {

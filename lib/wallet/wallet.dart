@@ -2,7 +2,7 @@ library bitcoin.wallet;
 
 import 'dart:typed_data';
 
-import 'package:pointycastle/pointycastle.dart' show ECPrivateKey, ECSignature;
+import 'package:pointycastle/pointycastle.dart' show ECPrivateKey;
 
 import '../chaincfg/chaincfg.dart' as chaincfg;
 

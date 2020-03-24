@@ -1,16 +1,15 @@
 library bitcoin.wallet.seed;
 
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:pointycastle/export.dart' show SHA256Digest;
 
 import '../../pgpwordlist/pgpwordlist.dart'
-    show decodeMnemonics, byteToMnemonic;
+    show decodeMnemonics;
 import '../../utils/utils.dart' as utils;
-import '../../hdkeychain/hdkeychain.dart' show MAX_SEED_BYTES, MIN_SEED_BYTES;
 
-int checksumByte(Uint8List data) {
+/// checksum
+int _checksumByte(Uint8List data) {
   var digest = SHA256Digest();
   digest.update(data, 0, data.length);
   var out = Uint8List(digest.digestSize);
@@ -20,7 +19,7 @@ int checksumByte(Uint8List data) {
   digest.doFinal(out, 0);
   return out[0];
 }
-
+/// mnemonic to Seed
 Uint8List mnemonicToSeed(String input) {
   var words = input.trim();
   Uint8List seed;

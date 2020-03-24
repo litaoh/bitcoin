@@ -1,5 +1,5 @@
 part of bitcoin.txscript;
-
+///Padding
 List<int> _rmPadding(List<int> buf) {
   var i = 0;
   var len = buf.length - 1;
@@ -11,7 +11,7 @@ List<int> _rmPadding(List<int> buf) {
   }
   return buf.sublist(i);
 }
-
+/// constructLength
 void _constructLength(List<int> arr, int len) {
   if (len < 0x80) {
     arr.add(len);
@@ -24,7 +24,7 @@ void _constructLength(List<int> arr, int len) {
   }
   arr.add(len);
 }
-
+/// sigToList
 List<int> _sigToList(List<int> r, List<int> s) {
   // Pad values
   if (r[0] & 0x80 != 0) {
@@ -52,7 +52,7 @@ List<int> _sigToList(List<int> r, List<int> s) {
   res.addAll(arr);
   return res;
 }
-
+/// ECSign
 pointycastle.ECSignature ECSign(pointycastle.ECPrivateKey key, Uint8List hash) {
   var signer = ECDSASigner(null, HMac(SHA256Digest(), 64));
   var pkp = PrivateKeyParameter(key);
@@ -66,7 +66,27 @@ pointycastle.ECSignature ECSign(pointycastle.ECPrivateKey key, Uint8List hash) {
 
   return pointycastle.ECSignature(sig.r, s);
 }
+/// raw TxIn witness signature
+Uint8List rawTxInWitnessSignature(
+    transaction.MsgTx tx,
+    TxSigHashes sigHashes,
+    int idx,
+    utils.Amount amt,
+    Uint8List subScript,
+    int hashType,
+    pointycastle.PrivateKey key) {
+  var parsedScript = parseScript(subScript);
 
+  var hash =
+      calcWitnessSignatureHash(parsedScript, sigHashes, hashType, tx, idx, amt);
+  var sig = ECSign(key, hash);
+
+  var ret = _sigToList(
+      utils.intToBytes(sig.r).toList(), utils.intToBytes(sig.s).toList());
+  ret.add(hashType);
+  return Uint8List.fromList(ret);
+}
+/// raw TxIn signature
 Uint8List rawTxInSignature(transaction.MsgTx tx, int idx, Uint8List subScript,
     int hashType, pointycastle.ECPrivateKey key) {
   List<ParsedOpcode> parsedScript;
@@ -82,15 +102,34 @@ Uint8List rawTxInSignature(transaction.MsgTx tx, int idx, Uint8List subScript,
   ret.add(hashType);
   return Uint8List.fromList(ret);
 }
-
+/// signature script
 Uint8List signatureScript(transaction.MsgTx tx, int idx, Uint8List subScript,
     int hashType, pointycastle.ECPrivateKey privKey, bool compress) {
   var sig = rawTxInSignature(tx, idx, subScript, hashType, privKey);
 
   var pkScript = (hdkeychain.ecc.G * privKey.d).getEncoded(compress);
-  return ScriptBuilder().addData(sig).script();
+  return ScriptBuilder().addData(sig).addData(pkScript).script();
 }
+/// witness signature
+List<Uint8List> witnessSignature(
+    transaction.MsgTx tx,
+    TxSigHashes sigHashes,
+    int idx,
+    utils.Amount amt,
+    Uint8List subscript,
+    int hashType,
+    pointycastle.ECPrivateKey privKey,
+    bool compress) {
+  var sig = rawTxInWitnessSignature(
+      tx, sigHashes, idx, amt, subscript, hashType, privKey);
 
+  var pk = privKey.parameters.G * privKey.d;
+
+  var pkData = pk.getEncoded(compress);
+
+  return [sig, pkData];
+}
+/// sign
 List<dynamic> sign(chaincfg.Params net, transaction.MsgTx tx, int idx,
     Uint8List subScript, int hashType, KeyClosure kdb, ScriptClosure sdb) {
   var data = extractPkScriptAddrs(subScript, net);
@@ -114,7 +153,7 @@ List<dynamic> sign(chaincfg.Params net, transaction.MsgTx tx, int idx,
       throw FormatException("can't sign unknown transactions");
   }
 }
-
+/// merge scripts
 Uint8List mergeScripts(
     chaincfg.Params net,
     transaction.MsgTx tx,
@@ -167,7 +206,7 @@ Uint8List mergeScripts(
       return prevScript;
   }
 }
-
+/// sign Tx Output
 Uint8List signTxOutput(
     chaincfg.Params net,
     transaction.MsgTx tx,
@@ -185,7 +224,6 @@ Uint8List signTxOutput(
 
   if (cls == SCRIPT_HASH_TY) {
     data = sign(net, tx, idx, sigScript, hashType, kdb, sdb);
-    print(data);
     Uint8List realSigScript = data[0];
 
     var builder = ScriptBuilder();

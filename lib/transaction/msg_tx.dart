@@ -46,6 +46,7 @@ const int BASE_ENCODING = 1;
 // using the default Bitcoin wire protocol specification. For transaction
 // messages, the new encoding format detailed in BIP0144 will be used.
 const int WITNESS_ENCODING = 2;
+
 class MsgTx {
   int version;
   List<TxIn> txIn;
@@ -66,7 +67,7 @@ class MsgTx {
     txOut.add(to);
   }
 
-  int serializeSizeStripped(){
+  int serializeSizeStripped() {
     return _baseSize();
   }
 
@@ -115,7 +116,7 @@ class MsgTx {
     return n;
   }
 
-  void decode(ByteData buf, [int offset = 0]) {
+  void decode(ByteData buf, [int offset = 0, int enc = WITNESS_ENCODING]) {
     version = buf.getUint32(offset, Endian.little);
     offset += 4;
     var data = readVarInt(buf, offset);
@@ -140,12 +141,10 @@ class MsgTx {
     }
 
     /// Deserialize the inputs.
-    int totalScriptSize = 0;
     txIn = <TxIn>[];
     for (var i = 0; i < count; i++) {
       txIn.add(TxIn());
       offset = _readTxIn(buf, txIn[i], offset);
-      totalScriptSize += txIn[i].signatureScript.length;
     }
 
     data = readVarInt(buf, offset);
@@ -162,10 +161,9 @@ class MsgTx {
     for (var i = 0; i < count; i++) {
       txOut.add(TxOut());
       offset = _readTxOut(buf, txOut[i], offset);
-      totalScriptSize += txOut[i].pkScript.length;
     }
 
-    if (flag != 0) {
+    if (flag != 0 && enc == WITNESS_ENCODING) {
       for (var i = 0; i < txIn.length; i++) {
         data = readVarInt(buf, offset);
         var witCount = data[0];
@@ -176,7 +174,6 @@ class MsgTx {
               buf, MAX_WITNESS_ITEM_SIZE, offset, "script witness item");
           txIn[i].witness.add(d[0]);
           offset = d[1];
-          totalScriptSize += txIn[i].witness[j].length;
         }
       }
     }
@@ -198,7 +195,6 @@ class MsgTx {
     var count = txIn.length;
 
     offset = writeVarInt(buf, count, offset);
-
     for (var i = 0; i < txIn.length; i++) {
       offset = _writeTxIn(buf, txIn[i], offset);
     }
@@ -206,27 +202,25 @@ class MsgTx {
     count = txOut.length;
     offset = writeVarInt(buf, count, offset);
     for (var i = 0; i < txOut.length; i++) {
-      offset = _writeTxOut(buf, txOut[i], offset);
+      offset = writeTxOut(buf, txOut[i], offset);
     }
 
     if (doWitness) {
       for (var i = 0; i < txIn.length; i++) {
-        _writeTxWitness(buf, version, txIn[i].witness, offset);
+        offset = _writeTxWitness(buf, version, txIn[i].witness, offset);
       }
     }
 
     buf.setUint32(offset, lockTime ?? 0, Endian.little);
   }
 
-  void serializeNoWitness(ByteData buf){
+  void serializeNoWitness(ByteData buf) {
     encode(buf, 0, BASE_ENCODING);
   }
 
   void serialize(ByteData buf) {
     encode(buf, 0, WITNESS_ENCODING);
   }
-
-  chainhash.Hash txHash() {}
 
   static MsgTx fromBytes(ByteData buf) {
     var msgTx = MsgTx();
@@ -291,6 +285,7 @@ int _readTxIn(ByteData buf, TxIn ti, int offset) {
 
 int _writeTxIn(ByteData buf, TxIn ti, int offset) {
   offset = _writeOutPoint(buf, ti.previousOutPoint, offset);
+  
   offset = writeVarBytes(buf, ti.signatureScript, offset);
   buf.setUint32(offset, ti.sequence, Endian.little);
   offset += 4;
@@ -310,8 +305,8 @@ int _readTxOut(ByteData buf, TxOut to, int offset) {
   offset = data[1];
   return offset;
 }
-
-int _writeTxOut(ByteData buf, TxOut to, int offset) {
+/// write TxOut
+int writeTxOut(ByteData buf, TxOut to, int offset) {
   buf.setUint64(offset, to.value.toCoin().toInt(), Endian.little);
   offset += 8;
   return writeVarBytes(buf, to.pkScript, offset);

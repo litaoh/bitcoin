@@ -1,4 +1,14 @@
 part of bitcoin.txscript;
+/// MaxStackSize is the maximum combined height of stack and alt stack
+/// during execution.
+const int MAX_STACK_SIZE = 1024;
+
+/// MaxScriptSize is the maximum allowed length of a raw script.
+const int MAX_SCRIPT_SIZE = 16384;
+
+/// DefaultScriptVersion is the default scripting language version
+/// representing extended Demos script.
+const int DEFAULT_SCRIPT_VERSION = 0;
 
 class ScriptBuilder {
   List<int> _script;
@@ -79,7 +89,8 @@ class ScriptBuilder {
     return Uint8List.fromList(_script);
   }
 }
-
+/// _canonicalDataSize returns the number of bytes the canonical encoding of the
+/// data will take.
 int _canonicalDataSize(data) {
   int dataLen = data.length;
   if (dataLen == 0) {

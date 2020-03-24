@@ -5,8 +5,9 @@ const int MAX_OPS_PER_SCRIPT = 255;
 /// Multisig can't have more sigs than this.
 const int MAX_SCRIPT_ELEMENT_SIZE = 2048;
 
-/// Max bytes pushable to the stack.
-
+/// _parseScriptTemplate is the same as parseScript but allows the passing of the
+/// template list for testing purposes.  When there are parse errors, it returns
+/// the list of parsed opcodes up to the point of failure along with the error.
 List<ParsedOpcode> _parseScriptTemplate(
     Uint8List script, Map<int, OpCode> opcodes) {
   var retScript = <ParsedOpcode>[];
@@ -70,10 +71,14 @@ List<ParsedOpcode> _parseScriptTemplate(
   return retScript;
 }
 
+/// parseScript preparses the script in bytes into a list of ParsedOpcodes while
+/// applying a number of sanity checks.
 List<ParsedOpcode> parseScript(Uint8List script) {
   return _parseScriptTemplate(script, opcodeArray);
 }
 
+/// unparseScript reversed the action of parseScript and returns the
+/// ParsedOpcodes as a list of bytes
 Uint8List unparseScript(List<ParsedOpcode> pops) {
   var script = <int>[];
   for (var i = 0; i < pops.length; i++) {

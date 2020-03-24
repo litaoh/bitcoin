@@ -8,8 +8,7 @@ class OpCode {
   final int value;
   final String name;
   final int length;
-  final Function opfunc;
-  OpCode({this.value, this.name, this.length, this.opfunc});
+  OpCode({this.value, this.name, this.length});
 }
 
 const int OP_0 = 0x00; // 0
@@ -283,583 +282,486 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_FALSE,
     name: "OP_0",
     length: 1,
-    opfunc: opcodeFalse,
   ),
   OP_DATA_1: OpCode(
     value: OP_DATA_1,
     name: "OP_DATA_1",
     length: 2,
-    opfunc: opcodePushData,
   ),
   OP_DATA_2: OpCode(
     value: OP_DATA_2,
     name: "OP_DATA_2",
     length: 3,
-    opfunc: opcodePushData,
   ),
   OP_DATA_3: OpCode(
     value: OP_DATA_3,
     name: "OP_DATA_3",
     length: 4,
-    opfunc: opcodePushData,
   ),
   OP_DATA_4: OpCode(
     value: OP_DATA_4,
     name: "OP_DATA_4",
     length: 5,
-    opfunc: opcodePushData,
   ),
   OP_DATA_5: OpCode(
     value: OP_DATA_5,
     name: "OP_DATA_5",
     length: 6,
-    opfunc: opcodePushData,
   ),
   OP_DATA_6: OpCode(
     value: OP_DATA_6,
     name: "OP_DATA_6",
     length: 7,
-    opfunc: opcodePushData,
   ),
   OP_DATA_7: OpCode(
     value: OP_DATA_7,
     name: "OP_DATA_7",
     length: 8,
-    opfunc: opcodePushData,
   ),
   OP_DATA_8: OpCode(
     value: OP_DATA_8,
     name: "OP_DATA_8",
     length: 9,
-    opfunc: opcodePushData,
   ),
   OP_DATA_9: OpCode(
     value: OP_DATA_9,
     name: "OP_DATA_9",
     length: 10,
-    opfunc: opcodePushData,
   ),
   OP_DATA_10: OpCode(
     value: OP_DATA_10,
     name: "OP_DATA_10",
     length: 11,
-    opfunc: opcodePushData,
   ),
   OP_DATA_11: OpCode(
     value: OP_DATA_11,
     name: "OP_DATA_11",
     length: 12,
-    opfunc: opcodePushData,
   ),
   OP_DATA_12: OpCode(
     value: OP_DATA_12,
     name: "OP_DATA_12",
     length: 13,
-    opfunc: opcodePushData,
   ),
   OP_DATA_13: OpCode(
     value: OP_DATA_13,
     name: "OP_DATA_13",
     length: 14,
-    opfunc: opcodePushData,
   ),
   OP_DATA_14: OpCode(
     value: OP_DATA_14,
     name: "OP_DATA_14",
     length: 15,
-    opfunc: opcodePushData,
   ),
   OP_DATA_15: OpCode(
     value: OP_DATA_15,
     name: "OP_DATA_15",
     length: 16,
-    opfunc: opcodePushData,
   ),
   OP_DATA_16: OpCode(
     value: OP_DATA_16,
     name: "OP_DATA_16",
     length: 17,
-    opfunc: opcodePushData,
   ),
   OP_DATA_17: OpCode(
     value: OP_DATA_17,
     name: "OP_DATA_17",
     length: 18,
-    opfunc: opcodePushData,
   ),
   OP_DATA_18: OpCode(
     value: OP_DATA_18,
     name: "OP_DATA_18",
     length: 19,
-    opfunc: opcodePushData,
   ),
   OP_DATA_19: OpCode(
     value: OP_DATA_19,
     name: "OP_DATA_19",
     length: 20,
-    opfunc: opcodePushData,
   ),
   OP_DATA_20: OpCode(
     value: OP_DATA_20,
     name: "OP_DATA_20",
     length: 21,
-    opfunc: opcodePushData,
   ),
   OP_DATA_21: OpCode(
     value: OP_DATA_21,
     name: "OP_DATA_21",
     length: 22,
-    opfunc: opcodePushData,
   ),
   OP_DATA_22: OpCode(
     value: OP_DATA_22,
     name: "OP_DATA_22",
     length: 23,
-    opfunc: opcodePushData,
   ),
   OP_DATA_23: OpCode(
     value: OP_DATA_23,
     name: "OP_DATA_23",
     length: 24,
-    opfunc: opcodePushData,
   ),
   OP_DATA_24: OpCode(
     value: OP_DATA_24,
     name: "OP_DATA_24",
     length: 25,
-    opfunc: opcodePushData,
   ),
   OP_DATA_25: OpCode(
     value: OP_DATA_25,
     name: "OP_DATA_25",
     length: 26,
-    opfunc: opcodePushData,
   ),
   OP_DATA_26: OpCode(
     value: OP_DATA_26,
     name: "OP_DATA_26",
     length: 27,
-    opfunc: opcodePushData,
   ),
   OP_DATA_27: OpCode(
     value: OP_DATA_27,
     name: "OP_DATA_27",
     length: 28,
-    opfunc: opcodePushData,
   ),
   OP_DATA_28: OpCode(
     value: OP_DATA_28,
     name: "OP_DATA_28",
     length: 29,
-    opfunc: opcodePushData,
   ),
   OP_DATA_29: OpCode(
     value: OP_DATA_29,
     name: "OP_DATA_29",
     length: 30,
-    opfunc: opcodePushData,
   ),
   OP_DATA_30: OpCode(
     value: OP_DATA_30,
     name: "OP_DATA_30",
     length: 31,
-    opfunc: opcodePushData,
   ),
   OP_DATA_31: OpCode(
     value: OP_DATA_31,
     name: "OP_DATA_31",
     length: 32,
-    opfunc: opcodePushData,
   ),
   OP_DATA_32: OpCode(
     value: OP_DATA_32,
     name: "OP_DATA_32",
     length: 33,
-    opfunc: opcodePushData,
   ),
   OP_DATA_33: OpCode(
     value: OP_DATA_33,
     name: "OP_DATA_33",
     length: 34,
-    opfunc: opcodePushData,
   ),
   OP_DATA_34: OpCode(
     value: OP_DATA_34,
     name: "OP_DATA_34",
     length: 35,
-    opfunc: opcodePushData,
   ),
   OP_DATA_35: OpCode(
     value: OP_DATA_35,
     name: "OP_DATA_35",
     length: 36,
-    opfunc: opcodePushData,
   ),
   OP_DATA_36: OpCode(
     value: OP_DATA_36,
     name: "OP_DATA_36",
     length: 37,
-    opfunc: opcodePushData,
   ),
   OP_DATA_37: OpCode(
     value: OP_DATA_37,
     name: "OP_DATA_37",
     length: 38,
-    opfunc: opcodePushData,
   ),
   OP_DATA_38: OpCode(
     value: OP_DATA_38,
     name: "OP_DATA_38",
     length: 39,
-    opfunc: opcodePushData,
   ),
   OP_DATA_39: OpCode(
     value: OP_DATA_39,
     name: "OP_DATA_39",
     length: 40,
-    opfunc: opcodePushData,
   ),
   OP_DATA_40: OpCode(
     value: OP_DATA_40,
     name: "OP_DATA_40",
     length: 41,
-    opfunc: opcodePushData,
   ),
   OP_DATA_41: OpCode(
     value: OP_DATA_41,
     name: "OP_DATA_41",
     length: 42,
-    opfunc: opcodePushData,
   ),
   OP_DATA_42: OpCode(
     value: OP_DATA_42,
     name: "OP_DATA_42",
     length: 43,
-    opfunc: opcodePushData,
   ),
   OP_DATA_43: OpCode(
     value: OP_DATA_43,
     name: "OP_DATA_43",
     length: 44,
-    opfunc: opcodePushData,
   ),
   OP_DATA_44: OpCode(
     value: OP_DATA_44,
     name: "OP_DATA_44",
     length: 45,
-    opfunc: opcodePushData,
   ),
   OP_DATA_45: OpCode(
     value: OP_DATA_45,
     name: "OP_DATA_45",
     length: 46,
-    opfunc: opcodePushData,
   ),
   OP_DATA_46: OpCode(
     value: OP_DATA_46,
     name: "OP_DATA_46",
     length: 47,
-    opfunc: opcodePushData,
   ),
   OP_DATA_47: OpCode(
     value: OP_DATA_47,
     name: "OP_DATA_47",
     length: 48,
-    opfunc: opcodePushData,
   ),
   OP_DATA_48: OpCode(
     value: OP_DATA_48,
     name: "OP_DATA_48",
     length: 49,
-    opfunc: opcodePushData,
   ),
   OP_DATA_49: OpCode(
     value: OP_DATA_49,
     name: "OP_DATA_49",
     length: 50,
-    opfunc: opcodePushData,
   ),
   OP_DATA_50: OpCode(
     value: OP_DATA_50,
     name: "OP_DATA_50",
     length: 51,
-    opfunc: opcodePushData,
   ),
   OP_DATA_51: OpCode(
     value: OP_DATA_51,
     name: "OP_DATA_51",
     length: 52,
-    opfunc: opcodePushData,
   ),
   OP_DATA_52: OpCode(
     value: OP_DATA_52,
     name: "OP_DATA_52",
     length: 53,
-    opfunc: opcodePushData,
   ),
   OP_DATA_53: OpCode(
     value: OP_DATA_53,
     name: "OP_DATA_53",
     length: 54,
-    opfunc: opcodePushData,
   ),
   OP_DATA_54: OpCode(
     value: OP_DATA_54,
     name: "OP_DATA_54",
     length: 55,
-    opfunc: opcodePushData,
   ),
   OP_DATA_55: OpCode(
     value: OP_DATA_55,
     name: "OP_DATA_55",
     length: 56,
-    opfunc: opcodePushData,
   ),
   OP_DATA_56: OpCode(
     value: OP_DATA_56,
     name: "OP_DATA_56",
     length: 57,
-    opfunc: opcodePushData,
   ),
   OP_DATA_57: OpCode(
     value: OP_DATA_57,
     name: "OP_DATA_57",
     length: 58,
-    opfunc: opcodePushData,
   ),
   OP_DATA_58: OpCode(
     value: OP_DATA_58,
     name: "OP_DATA_58",
     length: 59,
-    opfunc: opcodePushData,
   ),
   OP_DATA_59: OpCode(
     value: OP_DATA_59,
     name: "OP_DATA_59",
     length: 60,
-    opfunc: opcodePushData,
   ),
   OP_DATA_60: OpCode(
     value: OP_DATA_60,
     name: "OP_DATA_60",
     length: 61,
-    opfunc: opcodePushData,
   ),
   OP_DATA_61: OpCode(
     value: OP_DATA_61,
     name: "OP_DATA_61",
     length: 62,
-    opfunc: opcodePushData,
   ),
   OP_DATA_62: OpCode(
     value: OP_DATA_62,
     name: "OP_DATA_62",
     length: 63,
-    opfunc: opcodePushData,
   ),
   OP_DATA_63: OpCode(
     value: OP_DATA_63,
     name: "OP_DATA_63",
     length: 64,
-    opfunc: opcodePushData,
   ),
   OP_DATA_64: OpCode(
     value: OP_DATA_64,
     name: "OP_DATA_64",
     length: 65,
-    opfunc: opcodePushData,
   ),
   OP_DATA_65: OpCode(
     value: OP_DATA_65,
     name: "OP_DATA_65",
     length: 66,
-    opfunc: opcodePushData,
   ),
   OP_DATA_66: OpCode(
     value: OP_DATA_66,
     name: "OP_DATA_66",
     length: 67,
-    opfunc: opcodePushData,
   ),
   OP_DATA_67: OpCode(
     value: OP_DATA_67,
     name: "OP_DATA_67",
     length: 68,
-    opfunc: opcodePushData,
   ),
   OP_DATA_68: OpCode(
     value: OP_DATA_68,
     name: "OP_DATA_68",
     length: 69,
-    opfunc: opcodePushData,
   ),
   OP_DATA_69: OpCode(
     value: OP_DATA_69,
     name: "OP_DATA_69",
     length: 70,
-    opfunc: opcodePushData,
   ),
   OP_DATA_70: OpCode(
     value: OP_DATA_70,
     name: "OP_DATA_70",
     length: 71,
-    opfunc: opcodePushData,
   ),
   OP_DATA_71: OpCode(
     value: OP_DATA_71,
     name: "OP_DATA_71",
     length: 72,
-    opfunc: opcodePushData,
   ),
   OP_DATA_72: OpCode(
     value: OP_DATA_72,
     name: "OP_DATA_72",
     length: 73,
-    opfunc: opcodePushData,
   ),
   OP_DATA_73: OpCode(
     value: OP_DATA_73,
     name: "OP_DATA_73",
     length: 74,
-    opfunc: opcodePushData,
   ),
   OP_DATA_74: OpCode(
     value: OP_DATA_74,
     name: "OP_DATA_74",
     length: 75,
-    opfunc: opcodePushData,
   ),
   OP_DATA_75: OpCode(
     value: OP_DATA_75,
     name: "OP_DATA_75",
     length: 76,
-    opfunc: opcodePushData,
   ),
   OP_PUSHDATA1: OpCode(
     value: OP_PUSHDATA1,
     name: "OP_PUSHDATA1",
     length: -1,
-    opfunc: opcodePushData,
   ),
   OP_PUSHDATA2: OpCode(
     value: OP_PUSHDATA2,
     name: "OP_PUSHDATA2",
     length: -2,
-    opfunc: opcodePushData,
   ),
   OP_PUSHDATA4: OpCode(
     value: OP_PUSHDATA4,
     name: "OP_PUSHDATA4",
     length: -4,
-    opfunc: opcodePushData,
   ),
   OP_1NEGATE: OpCode(
     value: OP_1NEGATE,
     name: "OP_1NEGATE",
     length: 1,
-    opfunc: opcode1Negate,
   ),
   OP_RESERVED: OpCode(
     value: OP_RESERVED,
     name: "OP_RESERVED",
     length: 1,
-    opfunc: opcodeReserved,
   ),
   OP_TRUE: OpCode(
     value: OP_TRUE,
     name: "OP_1",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_2: OpCode(
     value: OP_2,
     name: "OP_2",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_3: OpCode(
     value: OP_3,
     name: "OP_3",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_4: OpCode(
     value: OP_4,
     name: "OP_4",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_5: OpCode(
     value: OP_5,
     name: "OP_5",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_6: OpCode(
     value: OP_6,
     name: "OP_6",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_7: OpCode(
     value: OP_7,
     name: "OP_7",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_8: OpCode(
     value: OP_8,
     name: "OP_8",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_9: OpCode(
     value: OP_9,
     name: "OP_9",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_10: OpCode(
     value: OP_10,
     name: "OP_10",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_11: OpCode(
     value: OP_11,
     name: "OP_11",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_12: OpCode(
     value: OP_12,
     name: "OP_12",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_13: OpCode(
     value: OP_13,
     name: "OP_13",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_14: OpCode(
     value: OP_14,
     name: "OP_14",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_15: OpCode(
     value: OP_15,
     name: "OP_15",
     length: 1,
-    opfunc: opcodeN,
   ),
   OP_16: OpCode(
     value: OP_16,
     name: "OP_16",
     length: 1,
-    opfunc: opcodeN,
   ),
 
   // Control opcodes.
@@ -867,73 +769,61 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_NOP,
     name: "OP_NOP",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_VER: OpCode(
     value: OP_VER,
     name: "OP_VER",
     length: 1,
-    opfunc: opcodeReserved,
   ),
   OP_IF: OpCode(
     value: OP_IF,
     name: "OP_IF",
     length: 1,
-    opfunc: opcodeIf,
   ),
   OP_NOTIF: OpCode(
     value: OP_NOTIF,
     name: "OP_NOTIF",
     length: 1,
-    opfunc: opcodeNotIf,
   ),
   OP_VERIF: OpCode(
     value: OP_VERIF,
     name: "OP_VERIF",
     length: 1,
-    opfunc: opcodeReserved,
   ),
   OP_VERNOTIF: OpCode(
     value: OP_VERNOTIF,
     name: "OP_VERNOTIF",
     length: 1,
-    opfunc: opcodeReserved,
   ),
   OP_ELSE: OpCode(
     value: OP_ELSE,
     name: "OP_ELSE",
     length: 1,
-    opfunc: opcodeElse,
   ),
   OP_ENDIF: OpCode(
     value: OP_ENDIF,
     name: "OP_ENDIF",
     length: 1,
-    opfunc: opcodeEndif,
   ),
   OP_VERIFY: OpCode(
     value: OP_VERIFY,
     name: "OP_VERIFY",
     length: 1,
-    opfunc: opcodeVerify,
   ),
   OP_RETURN: OpCode(
     value: OP_RETURN,
     name: "OP_RETURN",
     length: 1,
-    opfunc: opcodeReturn,
   ),
   OP_CHECKLOCKTIMEVERIFY: OpCode(
     value: OP_CHECKLOCKTIMEVERIFY,
     name: "OP_CHECKLOCKTIMEVERIFY",
     length: 1,
-    opfunc: opcodeCheckLockTimeVerify,
   ),
   OP_CHECKSEQUENCEVERIFY: OpCode(
     value: OP_CHECKSEQUENCEVERIFY,
     name: "OP_CHECKSEQUENCEVERIFY",
     length: 1,
-    opfunc: opcodeCheckSequenceVerify,
   ),
 
   // Stack opcodes.
@@ -941,115 +831,96 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_TOALTSTACK,
     name: "OP_TOALTSTACK",
     length: 1,
-    opfunc: opcodeToAltStack,
   ),
   OP_FROMALTSTACK: OpCode(
     value: OP_FROMALTSTACK,
     name: "OP_FROMALTSTACK",
     length: 1,
-    opfunc: opcodeFromAltStack,
   ),
   OP_2DROP: OpCode(
     value: OP_2DROP,
     name: "OP_2DROP",
     length: 1,
-    opfunc: opcode2Drop,
   ),
   OP_2DUP: OpCode(
     value: OP_2DUP,
     name: "OP_2DUP",
     length: 1,
-    opfunc: opcode2Dup,
   ),
   OP_3DUP: OpCode(
     value: OP_3DUP,
     name: "OP_3DUP",
     length: 1,
-    opfunc: opcode3Dup,
   ),
   OP_2OVER: OpCode(
     value: OP_2OVER,
     name: "OP_2OVER",
     length: 1,
-    opfunc: opcode2Over,
   ),
   OP_2ROT: OpCode(
     value: OP_2ROT,
     name: "OP_2ROT",
     length: 1,
-    opfunc: opcode2Rot,
   ),
   OP_2SWAP: OpCode(
     value: OP_2SWAP,
     name: "OP_2SWAP",
     length: 1,
-    opfunc: opcode2Swap,
   ),
   OP_IFDUP: OpCode(
     value: OP_IFDUP,
     name: "OP_IFDUP",
     length: 1,
-    opfunc: opcodeIfDup,
   ),
   OP_DEPTH: OpCode(
     value: OP_DEPTH,
     name: "OP_DEPTH",
     length: 1,
-    opfunc: opcodeDepth,
   ),
   OP_DROP: OpCode(
     value: OP_DROP,
     name: "OP_DROP",
     length: 1,
-    opfunc: opcodeDrop,
   ),
   OP_DUP: OpCode(
     value: OP_DUP,
     name: "OP_DUP",
     length: 1,
-    opfunc: opcodeDup,
   ),
   OP_NIP: OpCode(
     value: OP_NIP,
     name: "OP_NIP",
     length: 1,
-    opfunc: opcodeNip,
   ),
   OP_OVER: OpCode(
     value: OP_OVER,
     name: "OP_OVER",
     length: 1,
-    opfunc: opcodeOver,
   ),
   OP_PICK: OpCode(
     value: OP_PICK,
     name: "OP_PICK",
     length: 1,
-    opfunc: opcodePick,
   ),
   OP_ROLL: OpCode(
     value: OP_ROLL,
     name: "OP_ROLL",
     length: 1,
-    opfunc: opcodeRoll,
   ),
   OP_ROT: OpCode(
     value: OP_ROT,
     name: "OP_ROT",
     length: 1,
-    opfunc: opcodeRot,
   ),
   OP_SWAP: OpCode(
     value: OP_SWAP,
     name: "OP_SWAP",
     length: 1,
-    opfunc: opcodeSwap,
   ),
   OP_TUCK: OpCode(
     value: OP_TUCK,
     name: "OP_TUCK",
     length: 1,
-    opfunc: opcodeTuck,
   ),
 
   // Splice opcodes.
@@ -1057,31 +928,26 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_CAT,
     name: "OP_CAT",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_SUBSTR: OpCode(
     value: OP_SUBSTR,
     name: "OP_SUBSTR",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_LEFT: OpCode(
     value: OP_LEFT,
     name: "OP_LEFT",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_RIGHT: OpCode(
     value: OP_RIGHT,
     name: "OP_RIGHT",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_SIZE: OpCode(
     value: OP_SIZE,
     name: "OP_SIZE",
     length: 1,
-    opfunc: opcodeSize,
   ),
 
   // Bitwise logic opcodes.
@@ -1089,49 +955,41 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_INVERT,
     name: "OP_INVERT",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_AND: OpCode(
     value: OP_AND,
     name: "OP_AND",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_OR: OpCode(
     value: OP_OR,
     name: "OP_OR",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_XOR: OpCode(
     value: OP_XOR,
     name: "OP_XOR",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_EQUAL: OpCode(
     value: OP_EQUAL,
     name: "OP_EQUAL",
     length: 1,
-    opfunc: opcodeEqual,
   ),
   OP_EQUALVERIFY: OpCode(
     value: OP_EQUALVERIFY,
     name: "OP_EQUALVERIFY",
     length: 1,
-    opfunc: opcodeEqualVerify,
   ),
   OP_RESERVED1: OpCode(
     value: OP_RESERVED1,
     name: "OP_RESERVED1",
     length: 1,
-    opfunc: opcodeReserved,
   ),
   OP_RESERVED2: OpCode(
     value: OP_RESERVED2,
     name: "OP_RESERVED2",
     length: 1,
-    opfunc: opcodeReserved,
   ),
 
   // Numeric related opcodes.
@@ -1139,163 +997,136 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_1ADD,
     name: "OP_1ADD",
     length: 1,
-    opfunc: opcode1Add,
   ),
   OP_1SUB: OpCode(
     value: OP_1SUB,
     name: "OP_1SUB",
     length: 1,
-    opfunc: opcode1Sub,
   ),
   OP_2MUL: OpCode(
     value: OP_2MUL,
     name: "OP_2MUL",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_2DIV: OpCode(
     value: OP_2DIV,
     name: "OP_2DIV",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_NEGATE: OpCode(
     value: OP_NEGATE,
     name: "OP_NEGATE",
     length: 1,
-    opfunc: opcodeNegate,
   ),
   OP_ABS: OpCode(
     value: OP_ABS,
     name: "OP_ABS",
     length: 1,
-    opfunc: opcodeAbs,
   ),
   OP_NOT: OpCode(
     value: OP_NOT,
     name: "OP_NOT",
     length: 1,
-    opfunc: opcodeNot,
   ),
   OP_0NOTEQUAL: OpCode(
     value: OP_0NOTEQUAL,
     name: "OP_0NOTEQUAL",
     length: 1,
-    opfunc: opcode0NotEqual,
   ),
   OP_ADD: OpCode(
     value: OP_ADD,
     name: "OP_ADD",
     length: 1,
-    opfunc: opcodeAdd,
   ),
   OP_SUB: OpCode(
     value: OP_SUB,
     name: "OP_SUB",
     length: 1,
-    opfunc: opcodeSub,
   ),
   OP_MUL: OpCode(
     value: OP_MUL,
     name: "OP_MUL",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_DIV: OpCode(
     value: OP_DIV,
     name: "OP_DIV",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_MOD: OpCode(
     value: OP_MOD,
     name: "OP_MOD",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_LSHIFT: OpCode(
     value: OP_LSHIFT,
     name: "OP_LSHIFT",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_RSHIFT: OpCode(
     value: OP_RSHIFT,
     name: "OP_RSHIFT",
     length: 1,
-    opfunc: opcodeDisabled,
   ),
   OP_BOOLAND: OpCode(
     value: OP_BOOLAND,
     name: "OP_BOOLAND",
     length: 1,
-    opfunc: opcodeBoolAnd,
   ),
   OP_BOOLOR: OpCode(
     value: OP_BOOLOR,
     name: "OP_BOOLOR",
     length: 1,
-    opfunc: opcodeBoolOr,
   ),
   OP_NUMEQUAL: OpCode(
     value: OP_NUMEQUAL,
     name: "OP_NUMEQUAL",
     length: 1,
-    opfunc: opcodeNumEqual,
   ),
   OP_NUMEQUALVERIFY: OpCode(
     value: OP_NUMEQUALVERIFY,
     name: "OP_NUMEQUALVERIFY",
     length: 1,
-    opfunc: opcodeNumEqualVerify,
   ),
   OP_NUMNOTEQUAL: OpCode(
     value: OP_NUMNOTEQUAL,
     name: "OP_NUMNOTEQUAL",
     length: 1,
-    opfunc: opcodeNumNotEqual,
   ),
   OP_LESSTHAN: OpCode(
     value: OP_LESSTHAN,
     name: "OP_LESSTHAN",
     length: 1,
-    opfunc: opcodeLessThan,
   ),
   OP_GREATERTHAN: OpCode(
     value: OP_GREATERTHAN,
     name: "OP_GREATERTHAN",
     length: 1,
-    opfunc: opcodeGreaterThan,
   ),
   OP_LESSTHANOREQUAL: OpCode(
     value: OP_LESSTHANOREQUAL,
     name: "OP_LESSTHANOREQUAL",
     length: 1,
-    opfunc: opcodeLessThanOrEqual,
   ),
   OP_GREATERTHANOREQUAL: OpCode(
     value: OP_GREATERTHANOREQUAL,
     name: "OP_GREATERTHANOREQUAL",
     length: 1,
-    opfunc: opcodeGreaterThanOrEqual,
   ),
   OP_MIN: OpCode(
     value: OP_MIN,
     name: "OP_MIN",
     length: 1,
-    opfunc: opcodeMin,
   ),
   OP_MAX: OpCode(
     value: OP_MAX,
     name: "OP_MAX",
     length: 1,
-    opfunc: opcodeMax,
   ),
   OP_WITHIN: OpCode(
     value: OP_WITHIN,
     name: "OP_WITHIN",
     length: 1,
-    opfunc: opcodeWithin,
   ),
 
   // Crypto opcodes.
@@ -1303,61 +1134,51 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_RIPEMD160,
     name: "OP_RIPEMD160",
     length: 1,
-    opfunc: opcodeRipemd160,
   ),
   OP_SHA1: OpCode(
     value: OP_SHA1,
     name: "OP_SHA1",
     length: 1,
-    opfunc: opcodeSha1,
   ),
   OP_SHA256: OpCode(
     value: OP_SHA256,
     name: "OP_SHA256",
     length: 1,
-    opfunc: opcodeSha256,
   ),
   OP_HASH160: OpCode(
     value: OP_HASH160,
     name: "OP_HASH160",
     length: 1,
-    opfunc: opcodeHash160,
   ),
   OP_HASH256: OpCode(
     value: OP_HASH256,
     name: "OP_HASH256",
     length: 1,
-    opfunc: opcodeHash256,
   ),
   OP_CODESEPARATOR: OpCode(
     value: OP_CODESEPARATOR,
     name: "OP_CODESEPARATOR",
     length: 1,
-    opfunc: opcodeCodeSeparator,
   ),
   OP_CHECKSIG: OpCode(
     value: OP_CHECKSIG,
     name: "OP_CHECKSIG",
     length: 1,
-    opfunc: opcodeCheckSig,
   ),
   OP_CHECKSIGVERIFY: OpCode(
     value: OP_CHECKSIGVERIFY,
     name: "OP_CHECKSIGVERIFY",
     length: 1,
-    opfunc: opcodeCheckSigVerify,
   ),
   OP_CHECKMULTISIG: OpCode(
     value: OP_CHECKMULTISIG,
     name: "OP_CHECKMULTISIG",
     length: 1,
-    opfunc: opcodeCheckMultiSig,
   ),
   OP_CHECKMULTISIGVERIFY: OpCode(
     value: OP_CHECKMULTISIGVERIFY,
     name: "OP_CHECKMULTISIGVERIFY",
     length: 1,
-    opfunc: opcodeCheckMultiSigVerify,
   ),
 
   // Reserved opcodes.
@@ -1365,49 +1186,41 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_NOP1,
     name: "OP_NOP1",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_NOP4: OpCode(
     value: OP_NOP4,
     name: "OP_NOP4",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_NOP5: OpCode(
     value: OP_NOP5,
     name: "OP_NOP5",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_NOP6: OpCode(
     value: OP_NOP6,
     name: "OP_NOP6",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_NOP7: OpCode(
     value: OP_NOP7,
     name: "OP_NOP7",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_NOP8: OpCode(
     value: OP_NOP8,
     name: "OP_NOP8",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_NOP9: OpCode(
     value: OP_NOP9,
     name: "OP_NOP9",
     length: 1,
-    opfunc: opcodeNop,
   ),
   OP_NOP10: OpCode(
     value: OP_NOP10,
     name: "OP_NOP10",
     length: 1,
-    opfunc: opcodeNop,
   ),
 
   // Undefined opcodes.
@@ -1415,385 +1228,321 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_UNKNOWN186,
     name: "OP_UNKNOWN186",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN187: OpCode(
     value: OP_UNKNOWN187,
     name: "OP_UNKNOWN187",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN188: OpCode(
     value: OP_UNKNOWN188,
     name: "OP_UNKNOWN188",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN189: OpCode(
     value: OP_UNKNOWN189,
     name: "OP_UNKNOWN189",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN190: OpCode(
     value: OP_UNKNOWN190,
     name: "OP_UNKNOWN190",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN191: OpCode(
     value: OP_UNKNOWN191,
     name: "OP_UNKNOWN191",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN192: OpCode(
     value: OP_UNKNOWN192,
     name: "OP_UNKNOWN192",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN193: OpCode(
     value: OP_UNKNOWN193,
     name: "OP_UNKNOWN193",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN194: OpCode(
     value: OP_UNKNOWN194,
     name: "OP_UNKNOWN194",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN195: OpCode(
     value: OP_UNKNOWN195,
     name: "OP_UNKNOWN195",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN196: OpCode(
     value: OP_UNKNOWN196,
     name: "OP_UNKNOWN196",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN197: OpCode(
     value: OP_UNKNOWN197,
     name: "OP_UNKNOWN197",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN198: OpCode(
     value: OP_UNKNOWN198,
     name: "OP_UNKNOWN198",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN199: OpCode(
     value: OP_UNKNOWN199,
     name: "OP_UNKNOWN199",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN200: OpCode(
     value: OP_UNKNOWN200,
     name: "OP_UNKNOWN200",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN201: OpCode(
     value: OP_UNKNOWN201,
     name: "OP_UNKNOWN201",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN202: OpCode(
     value: OP_UNKNOWN202,
     name: "OP_UNKNOWN202",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN203: OpCode(
     value: OP_UNKNOWN203,
     name: "OP_UNKNOWN203",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN204: OpCode(
     value: OP_UNKNOWN204,
     name: "OP_UNKNOWN204",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN205: OpCode(
     value: OP_UNKNOWN205,
     name: "OP_UNKNOWN205",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN206: OpCode(
     value: OP_UNKNOWN206,
     name: "OP_UNKNOWN206",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN207: OpCode(
     value: OP_UNKNOWN207,
     name: "OP_UNKNOWN207",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN208: OpCode(
     value: OP_UNKNOWN208,
     name: "OP_UNKNOWN208",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN209: OpCode(
     value: OP_UNKNOWN209,
     name: "OP_UNKNOWN209",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN210: OpCode(
     value: OP_UNKNOWN210,
     name: "OP_UNKNOWN210",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN211: OpCode(
     value: OP_UNKNOWN211,
     name: "OP_UNKNOWN211",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN212: OpCode(
     value: OP_UNKNOWN212,
     name: "OP_UNKNOWN212",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN213: OpCode(
     value: OP_UNKNOWN213,
     name: "OP_UNKNOWN213",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN214: OpCode(
     value: OP_UNKNOWN214,
     name: "OP_UNKNOWN214",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN215: OpCode(
     value: OP_UNKNOWN215,
     name: "OP_UNKNOWN215",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN216: OpCode(
     value: OP_UNKNOWN216,
     name: "OP_UNKNOWN216",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN217: OpCode(
     value: OP_UNKNOWN217,
     name: "OP_UNKNOWN217",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN218: OpCode(
     value: OP_UNKNOWN218,
     name: "OP_UNKNOWN218",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN219: OpCode(
     value: OP_UNKNOWN219,
     name: "OP_UNKNOWN219",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN220: OpCode(
     value: OP_UNKNOWN220,
     name: "OP_UNKNOWN220",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN221: OpCode(
     value: OP_UNKNOWN221,
     name: "OP_UNKNOWN221",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN222: OpCode(
     value: OP_UNKNOWN222,
     name: "OP_UNKNOWN222",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN223: OpCode(
     value: OP_UNKNOWN223,
     name: "OP_UNKNOWN223",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN224: OpCode(
     value: OP_UNKNOWN224,
     name: "OP_UNKNOWN224",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN225: OpCode(
     value: OP_UNKNOWN225,
     name: "OP_UNKNOWN225",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN226: OpCode(
     value: OP_UNKNOWN226,
     name: "OP_UNKNOWN226",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN227: OpCode(
     value: OP_UNKNOWN227,
     name: "OP_UNKNOWN227",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN228: OpCode(
     value: OP_UNKNOWN228,
     name: "OP_UNKNOWN228",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN229: OpCode(
     value: OP_UNKNOWN229,
     name: "OP_UNKNOWN229",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN230: OpCode(
     value: OP_UNKNOWN230,
     name: "OP_UNKNOWN230",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN231: OpCode(
     value: OP_UNKNOWN231,
     name: "OP_UNKNOWN231",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN232: OpCode(
     value: OP_UNKNOWN232,
     name: "OP_UNKNOWN232",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN233: OpCode(
     value: OP_UNKNOWN233,
     name: "OP_UNKNOWN233",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN234: OpCode(
     value: OP_UNKNOWN234,
     name: "OP_UNKNOWN234",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN235: OpCode(
     value: OP_UNKNOWN235,
     name: "OP_UNKNOWN235",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN236: OpCode(
     value: OP_UNKNOWN236,
     name: "OP_UNKNOWN236",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN237: OpCode(
     value: OP_UNKNOWN237,
     name: "OP_UNKNOWN237",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN238: OpCode(
     value: OP_UNKNOWN238,
     name: "OP_UNKNOWN238",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN239: OpCode(
     value: OP_UNKNOWN239,
     name: "OP_UNKNOWN239",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN240: OpCode(
     value: OP_UNKNOWN240,
     name: "OP_UNKNOWN240",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN241: OpCode(
     value: OP_UNKNOWN241,
     name: "OP_UNKNOWN241",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN242: OpCode(
     value: OP_UNKNOWN242,
     name: "OP_UNKNOWN242",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN243: OpCode(
     value: OP_UNKNOWN243,
     name: "OP_UNKNOWN243",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN244: OpCode(
     value: OP_UNKNOWN244,
     name: "OP_UNKNOWN244",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN245: OpCode(
     value: OP_UNKNOWN245,
     name: "OP_UNKNOWN245",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN246: OpCode(
     value: OP_UNKNOWN246,
     name: "OP_UNKNOWN246",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN247: OpCode(
     value: OP_UNKNOWN247,
     name: "OP_UNKNOWN247",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN248: OpCode(
     value: OP_UNKNOWN248,
     name: "OP_UNKNOWN248",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN249: OpCode(
     value: OP_UNKNOWN249,
     name: "OP_UNKNOWN249",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
 
   // Bitcoin Core internal use opcode.  Defined here for completeness.
@@ -1801,38 +1550,32 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     value: OP_SMALLINTEGER,
     name: "OP_SMALLINTEGER",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_PUBKEYS: OpCode(
     value: OP_PUBKEYS,
     name: "OP_PUBKEYS",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_UNKNOWN252: OpCode(
     value: OP_UNKNOWN252,
     name: "OP_UNKNOWN252",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_PUBKEYHASH: OpCode(
     value: OP_PUBKEYHASH,
     name: "OP_PUBKEYHASH",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
   OP_PUBKEY: OpCode(
     value: OP_PUBKEY,
     name: "OP_PUBKEY",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
 
   OP_INVALIDOPCODE: OpCode(
     value: OP_INVALIDOPCODE,
     name: "OP_INVALIDOPCODE",
     length: 1,
-    opfunc: opcodeInvalid,
   ),
 };
 
@@ -1856,367 +1599,3 @@ Map<String, String> opcodeOnelineRepls = {
   "OP_15": "15",
   "OP_16": "16"
 };
-
-void opcodeDisabled(op, vm) {
-  print("opcodeDisabled");
-}
-
-void opcodeReserved(op, vm) {
-  print("opcodeReserved");
-}
-
-void opcodeInvalid(op, vm) {
-  print("opcodeInvalid");
-}
-
-void opcodeFalse(op, vm) {
-  print("opcodeFalse");
-}
-
-void opcodePushData(ParsedOpcode op, Engine vm) {
-  vm.dstack.pushByteArray(op.data);
-}
-
-void opcode1Negate(op, vm) {
-  print("opcode1Negate");
-}
-
-void opcodeN(op, vm) {
-  print("opcodeN");
-}
-
-void opcodeNop(op, vm) {
-  print("opcodeNop");
-}
-
-void opcodeIf(op, vm) {
-  print("opcodeIf");
-}
-
-void opcodeNotIf(op, vm) {
-  print("opcodeNotIf");
-}
-
-void opcodeElse(op, vm) {
-  print("opcodeElse");
-}
-
-void opcodeEndif(op, vm) {
-  print("opcodeEndif");
-}
-
-void abstractVerify(op, vm, c) {
-  print("abstractVerify");
-}
-
-void opcodeVerify(op, vm) {
-  print("opcodeVerify");
-}
-
-void opcodeReturn(op, vm) {
-  print("opcodeReturn");
-}
-
-void verifyLockTime(txLockTime, threshold, lockTime) {
-  print("verifyLockTime");
-}
-
-void opcodeCheckLockTimeVerify(op, vm) {
-  print("opcodeCheckLockTimeVerify");
-}
-
-void opcodeCheckSequenceVerify(op, vm) {
-  print("opcodeCheckSequenceVerify");
-}
-
-void opcodeToAltStack(op, vm) {
-  print("opcodeToAltStack");
-}
-
-void opcodeFromAltStack(op, vm) {
-  print("opcodeFromAltStack");
-}
-
-void opcode2Drop(op, vm) {
-  print("opcode2Drop");
-}
-
-void opcode2Dup(op, vm) {
-  print("opcode2Dup");
-}
-
-void opcode3Dup(op, vm) {
-  print("opcode3Dup");
-}
-
-void opcode2Over(op, vm) {
-  print("opcode2Over");
-}
-
-void opcode2Rot(op, vm) {
-  print("opcode2Rot");
-}
-
-void opcode2Swap(op, vm) {
-  print("opcode2Swap");
-}
-
-void opcodeIfDup(op, vm) {
-  print("opcodeIfDup");
-}
-
-void opcodeDepth(op, vm) {
-  print("opcodeDepth");
-}
-
-void opcodeDrop(op, vm) {
-  print("opcodeDrop");
-}
-
-void opcodeDup(op, vm) {
-  print("opcodeDup");
-}
-
-void opcodeNip(op, vm) {
-  print("opcodeNip");
-}
-
-void opcodeOver(op, vm) {
-  print("opcodeOver");
-}
-
-void opcodePick(op, vm) {
-  print("opcodePick");
-}
-
-void opcodeRoll(op, vm) {
-  print("opcodeRoll");
-}
-
-void opcodeRot(op, vm) {
-  print("opcodeRot");
-}
-
-void opcodeSwap(op, vm) {
-  print("opcodeSwap");
-}
-
-void opcodeTuck(op, vm) {
-  print("opcodeTuck");
-}
-
-void opcodeCat(op, vm) {
-  print("opcodeCat");
-}
-
-void opcodeSubstr(op, vm) {
-  print("opcodeSubstr");
-}
-
-void opcodeLeft(op, vm) {
-  print("opcodeLeft");
-}
-
-void opcodeRight(op, vm) {
-  print("opcodeRight");
-}
-
-void opcodeSize(op, vm) {
-  print("opcodeSize");
-}
-
-void opcodeInvert(op, vm) {
-  print("opcodeInvert");
-}
-
-void opcodeAnd(op, vm) {
-  print("opcodeAnd");
-}
-
-void opcodeOr(op, vm) {
-  print("opcodeOr");
-}
-
-void opcodeXor(op, vm) {
-  print("opcodeXor");
-}
-
-void opcodeEqual(op, vm) {
-  print("opcodeEqual");
-}
-
-void opcodeEqualVerify(op, vm) {
-  print("opcodeEqualVerify");
-}
-
-void rotateRight(value, count) {
-  print("rotateRight");
-}
-
-void opcodeRotr(op, vm) {
-  print("opcodeRotr");
-}
-
-void rotateLeft(value, count) {
-  print("rotateLeft");
-}
-
-void opcodeRotl(op, vm) {
-  print("opcodeRotl");
-}
-
-void opcode1Add(op, vm) {
-  print("opcode1Add");
-}
-
-void opcode1Sub(op, vm) {
-  print("opcode1Sub");
-}
-
-void opcodeNegate(op, vm) {
-  print("opcodeNegate");
-}
-
-void opcodeAbs(op, vm) {
-  print("opcodeAbs");
-}
-
-void opcodeNot(op, vm) {
-  print("opcodeNot");
-}
-
-void opcode0NotEqual(op, vm) {
-  print("opcode0NotEqual");
-}
-
-void opcodeAdd(op, vm) {
-  print("opcodeAdd");
-}
-
-void opcodeSub(op, vm) {
-  print("opcodeSub");
-}
-
-void opcodeMul(op, vm) {
-  print("opcodeMul");
-}
-
-void opcodeDiv(op, vm) {
-  print("opcodeDiv");
-}
-
-void opcodeMod(op, vm) {
-  print("opcodeMod");
-}
-
-void opcodeLShift(op, vm) {
-  print("opcodeLShift");
-}
-
-void opcodeRShift(op, vm) {
-  print("opcodeRShift");
-}
-
-void opcodeBoolAnd(op, vm) {
-  print("opcodeBoolAnd");
-}
-
-void opcodeBoolOr(op, vm) {
-  print("opcodeBoolOr");
-}
-
-void opcodeNumEqual(op, vm) {
-  print("opcodeNumEqual");
-}
-
-void opcodeNumEqualVerify(op, vm) {
-  print("opcodeNumEqualVerify");
-}
-
-void opcodeNumNotEqual(op, vm) {
-  print("opcodeNumNotEqual");
-}
-
-void opcodeLessThan(op, vm) {
-  print("opcodeLessThan");
-}
-
-void opcodeGreaterThan(op, vm) {
-  print("opcodeGreaterThan");
-}
-
-void opcodeLessThanOrEqual(op, vm) {
-  print("opcodeLessThanOrEqual");
-}
-
-void opcodeGreaterThanOrEqual(op, vm) {
-  print("opcodeGreaterThanOrEqual");
-}
-
-void opcodeMin(op, vm) {
-  print("opcodeMin");
-}
-
-void opcodeMax(op, vm) {
-  print("opcodeMax");
-}
-
-void opcodeWithin(op, vm) {
-  print("opcodeWithin");
-}
-
-void calcHash(buf, hasher) {
-  print("calcHash");
-}
-
-void opcodeRipemd160(op, vm) {
-  print("opcodeRipemd160");
-}
-
-void opcodeSha1(op, vm) {
-  print("opcodeSha1");
-}
-
-void opcodeBlake256(op, vm) {
-  print("opcodeBlake256");
-}
-
-void opcodeSha256(op, vm) {
-  print("opcodeSha256");
-}
-
-void opcodeHash160(op, vm) {
-  print("opcodeHash160");
-}
-
-void opcodeHash256(op, vm) {
-  print("opcodeHash256");
-}
-
-void opcodeCheckSig(op, vm) {
-  print("opcodeCheckSig");
-}
-
-void opcodeCheckSigVerify(op, vm) {
-  print("opcodeCheckSigVerify");
-}
-
-void opcodeCheckMultiSig(op, vm) {
-  print("opcodeCheckMultiSig");
-}
-
-void opcodeCheckMultiSigVerify(op, vm) {
-  print("opcodeCheckMultiSigVerify");
-}
-
-void opcodeCheckSigAlt(op, vm) {
-  print("opcodeCheckSigAlt");
-}
-
-void opcodeCheckSigAltVerify(op, vm) {
-  print("opcodeCheckSigAltVerify");
-}
-
-void opcodeCodeSeparator(op, vm) {
-  print("opcodeCodeSeparator");
-}

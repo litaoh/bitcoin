@@ -6,7 +6,7 @@ import '../utils/utils.dart' as utils;
 import '../txscript/txscript.dart' as txscript;
 import '../txsizes/txsizes.dart' as txsizes;
 import '../transaction/transaction.dart' as transaction;
-import '../wallet/wallet.dart' show WalletBTC, GAP_POLICY_WRAP;
+import '../wallet/wallet.dart' show WalletBTC;
 
 part 'output.dart';
 part 'change_source.dart';

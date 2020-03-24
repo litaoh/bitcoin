@@ -8,6 +8,10 @@ class OutPoint {
     this.index,
   });
 
+  int get length {
+    return hash.length + 4;
+  }
+
   @override
   String toString() {
     return '${hash.toString()}:${index}';

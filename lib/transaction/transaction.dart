@@ -3,6 +3,7 @@ library bitcoin.transaction;
 import 'dart:typed_data';
 
 import '../utils/utils.dart' as utils;
+import '../chaincfg/chaincfg.dart' as chaincfg;
 import '../chainhash/chainhash.dart' as chainhash;
 import '../txscript/txscript.dart' as txscript;
 import '../txsizes/txsizes.dart' as txsizes;
@@ -18,6 +19,5 @@ part 'out_point.dart';
 part 'input_source.dart';
 part 'input_detail.dart';
 part 'store.dart';
-
 part 'msg_tx.dart';
 part 'author_tx.dart';

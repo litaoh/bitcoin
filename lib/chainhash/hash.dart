@@ -14,6 +14,10 @@ class Hash {
     return Uint8List.fromList(_hash);
   }
 
+  int get length {
+    return _hash.length;
+  }
+
   Hash.fromString(String src) {
     if ((src?.isEmpty ?? true) || src.length > MAX_HASH_STRING_SIZE) {
       throw FormatException(

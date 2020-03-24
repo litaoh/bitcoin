@@ -17,7 +17,6 @@ import '../hdkeychain/hdkeychain.dart' as hdkeychain;
 
 part 'parsed_opcode.dart';
 part 'op_code.dart';
-part 'engine.dart';
 part 'script.dart';
 part 'standard.dart';
 
@@ -25,5 +24,5 @@ part 'script_builder.dart';
 part 'sig_hash.dart';
 part 'key_closure.dart';
 part 'script_closure.dart';
+part 'tx_sig_hashes.dart';
 part 'sign.dart';
-part 'stack.dart';

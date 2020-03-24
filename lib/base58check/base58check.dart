@@ -41,9 +41,9 @@ Uint8List _hash(Uint8List b) => chainhash.hashB(chainhash.hashB(b));
 class Base58CheckDecoder extends Converter<String, Uint8List> {
   const Base58CheckDecoder();
   @override
-  Uint8List convert(String encoded) => _convert(encoded, false);
+  Uint8List convert(String encoded) => _convert(encoded, true);
 
-  Uint8List convertUnchecked(String encoded) => _convert(encoded, false);
+  Uint8List convertUnchecked(String encoded) => _convert(encoded, true);
 
   Uint8List _convert(String encoded, bool validateChecksum) {
     var bytes = base58.decode(encoded);
@@ -51,7 +51,7 @@ class Base58CheckDecoder extends Converter<String, Uint8List> {
       throw FormatException(
           'Invalid Base58Check encoded string: must be at least size 6');
     }
-    var checksum = _hash(bytes.sublist(2, bytes.length - 4));
+    var checksum = _hash(bytes.sublist(0, bytes.length - 4));
     var providedChecksum = bytes.sublist(bytes.length - 4, bytes.length);
     if (validateChecksum &&
         !ListEquality().equals(providedChecksum, checksum.sublist(0, 4))) {

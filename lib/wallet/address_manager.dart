@@ -80,7 +80,7 @@ class AddressManager {
     return acctKeyLegacyPriv;
   }
 }
-
+/// deriveAccountKey
 hdkeychain.ExtendedKey _deriveAccountKey(
     hdkeychain.ExtendedKey coinTypeKey, int account) {
   /// Enforce maximum account number.
@@ -91,7 +91,7 @@ hdkeychain.ExtendedKey _deriveAccountKey(
   /// Derive the account key as a child of the coin type key.
   return coinTypeKey.child(account + hdkeychain.HARDENED_KEY_START);
 }
-
+/// derive coin type key
 hdkeychain.ExtendedKey _deriveCoinTypeKey(
     hdkeychain.ExtendedKey masterNode, int coinType) {
   if (coinType > MAX_COIN_TYPE) {

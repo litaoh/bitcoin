@@ -150,11 +150,9 @@ int estimateVirtualSize(
     List<transaction.TxOut> txOuts,
     bool addChangeOutput) {
   var changeSize = 0;
-  var outputCount = txOuts.length;
   if (addChangeOutput) {
     // We are always using P2WPKH as change output.
     changeSize = P2WPKH_OUTPUT_SIZE;
-    outputCount++;
   }
 
   /// Version 4 bytes + LockTime 4 bytes + Serialized var int size for the

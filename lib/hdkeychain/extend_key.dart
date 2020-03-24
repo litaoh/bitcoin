@@ -1,7 +1,5 @@
 part of bitcoin.hdkeychain;
 
-const int RecommendedSeedLen = 32; // 256 bits
-
 /// HARDENED_KEY_START is the index at which a hardended key starts.  Each
 /// extended key has 2^31 normal child keys and 2^31 hardned child keys.
 /// Thus the range for normal child keys is [0, 2^31 - 1] and the range
@@ -22,8 +20,7 @@ const int MAX_SEED_BYTES = 64; // 512 bits
 /// public/private key data.
 const int serializedKeyLen = 4 + 1 + 4 + 4 + 32 + 33;
 
-/// 78 bytes
-
+///ecc
 final pointycastle.ECDomainParameters ecc = ECCurve_secp256k1();
 
 class ExtendedKey {

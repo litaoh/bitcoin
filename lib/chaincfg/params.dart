@@ -1,7 +1,5 @@
 part of bitcoin.chaincfg;
 
-const bool SIG_HASH_OPTIMIZATION = false;
-
 class Params {
   final String name;
 

@@ -70,7 +70,13 @@ class Amount {
   }
 
   Uint8List bytes() {
-    return intToBytes(_value);
+    var ret = intToBytes(_value).toList(growable: true);
+    var len = ret.length;
+    for (var i = 0; i < 8 - len; i++) {
+      ret.insert(0, 0);
+    }
+    ret = List.from(ret.reversed);
+    return Uint8List.fromList(ret);
   }
 
   Amount operator +(Amount other) {

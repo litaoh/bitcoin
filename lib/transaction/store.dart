@@ -15,6 +15,7 @@ class Store {
     }
     var currentTotal = utils.Amount(0);
     var currentInputs = <TxIn>[];
+    var inputValues = <utils.Amount>[];
     var currentScripts = <Uint8List>[];
 
     return InputSource((utils.Amount target) {
@@ -24,7 +25,7 @@ class Store {
         var pkScript = utxo.pubKey;
 
         var hash = utxo.txid;
-
+        inputValues.add(amt);
         var txIn = TxIn(
           previousOutPoint: OutPoint(hash: hash, index: utxo.vout),
 //          valueIn: utxo.amount,
@@ -38,6 +39,7 @@ class Store {
       return InputDetail(
         amount: currentTotal,
         inputs: currentInputs,
+        inputValues: inputValues,
         scripts: currentScripts,
       );
     });

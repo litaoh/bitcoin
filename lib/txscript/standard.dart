@@ -20,19 +20,16 @@ const int WITNESS_V0_SCRIPT_HASH_TY = 5;
 /// Multi signature.
 const int NULL_DATA_TY = 7;
 
-/// Change for stake submission tx.
-const int PUB_KEY_ALT_TY = 10;
-
-/// Alternative signature pubkey.
-const int PUB_KEY_HASH_ALT_TY = 11;
-
+/// isSmallInt returns whether or not the opcode is considered a small integer,
+/// which is an OP_0, or OP_1 through OP_16.
 bool isSmallInt(OpCode op) {
   if (op.value == OP_0 || (op.value >= OP_1 && op.value <= OP_16)) {
     return true;
   }
   return false;
 }
-
+/// asSmallInt returns the passed opcode, which must be true according to
+/// isSmallInt(), as an integer.
 int asSmallInt(OpCode op) {
   if (op.value == OP_0) {
     return 0;
@@ -85,14 +82,16 @@ Uint8List payToAddrScript(utils.Address addr) {
   throw FormatException(
       'unable to generate payment script for unsupported address type');
 }
-
+/// isPubkey returns true if the script passed is a pay-to-pubkey transaction,
+/// false otherwise.
 bool isPubkey(List<ParsedOpcode> pops) {
   /// Valid pubkeys are either 33 or 65 bytes.
   return pops.length == 2 &&
       (pops[0].data.length == 33 || pops[0].data.length == 65) &&
       pops[1].opcode.value == OP_CHECKSIG;
 }
-
+/// isPubkeyHash returns true if the script passed is a pay-to-pubkey-hash
+/// transaction, false otherwise.
 bool isPubkeyHash(List<ParsedOpcode> pops) {
   return pops.length == 5 &&
       pops[0].opcode.value == OP_DUP &&
@@ -101,7 +100,8 @@ bool isPubkeyHash(List<ParsedOpcode> pops) {
       pops[3].opcode.value == OP_EQUALVERIFY &&
       pops[4].opcode.value == OP_CHECKSIG;
 }
-
+/// isNullData returns true if the passed script is a null data transaction,
+/// false otherwise.
 bool isNullData(List<ParsedOpcode> pops) {
   var l = pops.length;
   if (l == 1 && pops[0].opcode.value == OP_RETURN) {
@@ -113,7 +113,8 @@ bool isNullData(List<ParsedOpcode> pops) {
       (isSmallInt(pops[1].opcode) || pops[1].opcode.value <= OP_PUSHDATA4) &&
       pops[1].data.length <= MAX_DATA_CARRIER_SIZE;
 }
-
+/// scriptType returns the type of the script being inspected from the known
+/// standard types.
 int _typeOfScript(List<ParsedOpcode> pops) {
   if (isPubkey(pops)) {
     return PUB_KEY_TY;
@@ -157,8 +158,7 @@ List<dynamic> extractPkScriptAddrs(Uint8List pkScript, chaincfg.Params net) {
       break;
     case WITNESS_V0_PUB_KEY_HASH_TY:
       requiredSigs = 1;
-      addrs.add(
-          utils.AddressWitnessPubKeyHash(scriptHash: pops[1].data, net: net));
+      addrs.add(utils.AddressWitnessPubKeyHash(hash: pops[1].data, net: net));
       break;
   }
 

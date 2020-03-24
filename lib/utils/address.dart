@@ -1,5 +1,5 @@
 part of bitcoin.utils;
-
+/// encode address
 String encodeAddress(Uint8List hash, int netID) {
   var payload = Uint8List(hash.length + 1);
   payload[0] = netID;
@@ -7,6 +7,7 @@ String encodeAddress(Uint8List hash, int netID) {
   return Base58CheckCodec().encode(payload);
 }
 
+/// decode address
 Address decodeAddress(String address) {
   var payload = Base58CheckCodec().decode(address);
   var netID = payload[0];
