@@ -1,4 +1,4 @@
-part of bitcoin.chainhash;
+part of bitcoins.chainhash;
 
 /// HashB calculates hash(b) and returns the resulting bytes.
 Uint8List hashB(Uint8List data) {

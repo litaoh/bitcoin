@@ -1,4 +1,4 @@
-part of bitcoin.txhelpers;
+part of bitcoins.txhelpers;
 
 /// make tx outputs
 List<transaction.TxOut> makeTxOutputs(

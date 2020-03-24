@@ -1,4 +1,4 @@
-library bitcoin.txscript;
+library bitcoins.txscript;
 
 import 'dart:typed_data';
 import 'dart:math' as math;

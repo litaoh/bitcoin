@@ -1,4 +1,4 @@
-part of bitcoin.txhelpers;
+part of bitcoins.txhelpers;
 
 class TransactionDestination {
   final String address;

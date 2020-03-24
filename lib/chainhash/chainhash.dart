@@ -1,4 +1,4 @@
-library bitcoin.chainhash;
+library bitcoins.chainhash;
 
 import 'dart:typed_data';
 

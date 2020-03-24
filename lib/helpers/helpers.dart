@@ -1,4 +1,4 @@
-library bitcoin.helpers;
+library bitcoins.helpers;
 
 import '../transaction/transaction.dart' show TxOut;
 import '../utils/utils.dart' show Amount;

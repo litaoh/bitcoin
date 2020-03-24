@@ -1,4 +1,4 @@
-part of bitcoin.chaincfg;
+part of bitcoins.chaincfg;
 
 class Params {
   final String name;

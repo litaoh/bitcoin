@@ -1,14 +1,10 @@
-library bitcoin.utils;
+library bitcoins.utils;
 
 import 'dart:typed_data';
-
-
-import 'package:convert/convert.dart';
 
 import 'package:pointycastle/src/utils.dart' as p_utils;
 
 import '../chaincfg/chaincfg.dart' as chaincfg;
-
 
 import '../base58check/base58check.dart';
 

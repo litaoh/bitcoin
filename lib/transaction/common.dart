@@ -1,4 +1,4 @@
-part of bitcoin.transaction;
+part of bitcoins.transaction;
 
 const int MAX_UINT_16 = 1 << 16 - 1;
 const int MAX_UINT_32 = 1 << 32 - 1;

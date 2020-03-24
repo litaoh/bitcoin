@@ -3,8 +3,6 @@ library base58check;
 import 'package:bs58/bs58.dart';
 import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:collection/collection.dart' show ListEquality;
 import '../chainhash/chainhash.dart' as chainhash;
 
 class Base58CheckCodec extends Codec<Uint8List, String> {
@@ -45,6 +43,25 @@ class Base58CheckDecoder extends Converter<String, Uint8List> {
 
   Uint8List convertUnchecked(String encoded) => _convert(encoded, true);
 
+  bool equals(Uint8List list1, Uint8List list2) {
+    if (identical(list1, list2)) {
+      return true;
+    }
+    if (list1 == null || list2 == null) {
+      return false;
+    }
+    int length = list1.length;
+    if (length != list2.length) {
+      return false;
+    }
+    for (int i = 0; i < length; i++) {
+      if (list1[i] != list2[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   Uint8List _convert(String encoded, bool validateChecksum) {
     var bytes = base58.decode(encoded);
     if (bytes.length < 6) {
@@ -53,8 +70,7 @@ class Base58CheckDecoder extends Converter<String, Uint8List> {
     }
     var checksum = _hash(bytes.sublist(0, bytes.length - 4));
     var providedChecksum = bytes.sublist(bytes.length - 4, bytes.length);
-    if (validateChecksum &&
-        !ListEquality().equals(providedChecksum, checksum.sublist(0, 4))) {
+    if (validateChecksum && !equals(providedChecksum, checksum.sublist(0, 4))) {
       throw FormatException('Invalid checksum in Base58Check encoding.');
     }
     return Uint8List.fromList(bytes.sublist(0, bytes.length - 4));

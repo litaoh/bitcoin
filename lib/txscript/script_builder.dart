@@ -1,4 +1,5 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
+
 /// MaxStackSize is the maximum combined height of stack and alt stack
 /// during execution.
 const int MAX_STACK_SIZE = 1024;
@@ -89,6 +90,7 @@ class ScriptBuilder {
     return Uint8List.fromList(_script);
   }
 }
+
 /// _canonicalDataSize returns the number of bytes the canonical encoding of the
 /// data will take.
 int _canonicalDataSize(data) {

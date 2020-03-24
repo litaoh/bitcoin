@@ -1,4 +1,4 @@
-part of bitcoin.wallet;
+part of bitcoins.wallet;
 
 const int DEFAULT_GAP_LIMIT = 20;
 

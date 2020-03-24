@@ -1,4 +1,4 @@
-part of bitcoin.wallet;
+part of bitcoins.wallet;
 
 class AccountProperties {
   final int lastUsedExternalIndex;

@@ -1,4 +1,4 @@
-part of bitcoin.wallet;
+part of bitcoins.wallet;
 
 class AddressBuffer {
   final hdkeychain.ExtendedKey branchXpub;

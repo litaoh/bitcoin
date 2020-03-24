@@ -1,4 +1,4 @@
-library bitcoin.txhelpers;
+library bitcoins.txhelpers;
 
 import 'dart:typed_data';
 

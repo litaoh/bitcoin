@@ -1,4 +1,4 @@
-library bitcoin.hdkeychain;
+library bitcoins.hdkeychain;
 
 import 'dart:typed_data';
 

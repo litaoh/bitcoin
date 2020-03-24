@@ -1,4 +1,4 @@
-part of bitcoin.txhelpers;
+part of bitcoins.txhelpers;
 
 class P2PKHChangeSource extends ChangeSource {
   final int account;

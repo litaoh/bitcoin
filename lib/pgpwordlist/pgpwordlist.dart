@@ -1,4 +1,4 @@
-library bitcoin.pgpwordlist;
+library bitcoins.pgpwordlist;
 
 import 'dart:convert';
 import 'dart:typed_data';

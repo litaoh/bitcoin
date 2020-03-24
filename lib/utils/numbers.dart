@@ -1,4 +1,25 @@
-part of bitcoin.utils;
+part of bitcoins.utils;
+
+/// bytes to hex
+String _encode(Uint8List bytes) {
+  var str = '';
+  for (var i = 0; i < bytes.length; i++) {
+    var s = bytes[i].toRadixString(16);
+
+    str += s.padLeft(2, '0');
+  }
+  return str;
+}
+
+/// hex to bytes
+Uint8List _decode(String hex) {
+  var len = hex.length ~/ 2;
+  var bytes = Uint8List(len);
+  for (var i = 0; i < len; i++) {
+    bytes[i] = int.parse(hex.substring(i * 2, i * 2 + 2), radix: 16);
+  }
+  return bytes;
+}
 
 /// If present, removes the 0x from the start of a hex-string.
 String strip0x(String hex) {
@@ -51,7 +72,7 @@ String toHex(dynamic number,
 /// of even length. If [include0x] is set, it will prefix '0x' to the hexadecimal
 /// representation.
 String bytesToHex(Uint8List bytes, {bool include0x = false}) {
-  return (include0x ? '0x' : '') + hex.encode(bytes);
+  return (include0x ? '0x' : '') + _encode(bytes);
 }
 
 /// Converts the given number, either a [int] or a [BigInt] to a list of
@@ -62,13 +83,13 @@ Uint8List numberToBytes(dynamic number) {
   }
 
   var hexString = toHex(number, pad: true);
-  return hex.decode(hexString);
+  return _decode(hexString);
 }
 
 /// Converts the hexadecimal string, which can be prefixed with 0x, to a byte
 /// sequence.
 Uint8List hexToBytes(String hexStr) {
-  return hex.decode(strip0x(hexStr));
+  return _decode(strip0x(hexStr));
 }
 
 ///Converts the bytes from that list (big endian) to a BigInt.

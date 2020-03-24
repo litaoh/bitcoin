@@ -1,40 +1,29 @@
-part of bitcoin.transaction;
+part of bitcoins.transaction;
 
-/// MaxMessagePayload is the maximum bytes a message can be regardless of other
+/// MAX_MESSAGE_PAYLOAD is the maximum bytes a message can be regardless of other
 /// individual limits imposed by messages themselves.
 const int MAX_MESSAGE_PAYLOAD = (1024 * 1024 * 32);
 
-/// 32MB
-/// TxVersion is the current latest supported transaction version.
-const int TX_VERSION = 1;
-
-/// MaxTxInSequenceNum is the maximum sequence number the sequence field
+/// MAX_TX_IN_SEQUENCE_NUM is the maximum sequence number the sequence field
 /// of a transaction input can be.
 const int MAX_TX_IN_SEQUENCE_NUM = 0xffffffff;
 
-/// SequenceLockTimeGranularity is the defined time based granularity
-/// for seconds-based relative time locks.  When converting from seconds
-/// to a sequence number, the value is right shifted by this amount,
-/// therefore the granularity of relative time locks in 512 or 2^9
-/// seconds.  Enforced relative lock times are multiples of 512 seconds.
-const int SEQUENCE_LOCK_TIME_GRANULARITY = 9;
-
-/// minTxInPayload is the minimum payload size for a transaction input.
+/// MIN_TX_IN_PAYLOAD is the minimum payload size for a transaction input.
 /// PreviousOutPoint.Hash + PreviousOutPoint.Index 4 bytes +
 /// PreviousOutPoint.Tree 1 byte + Varint for SignatureScript length 1
 /// byte + Sequence 4 bytes.
 const int MIN_TX_IN_PAYLOAD = 11 + chainhash.HASH_SIZE;
 
-/// maxTxInPerMessage is the maximum number of transactions inputs that
+/// MAX_TX_IN_PER_MESSAGE is the maximum number of transactions inputs that
 /// a transaction which fits into a message could possibly have.
 const int MAX_TX_IN_PER_MESSAGE =
     (MAX_MESSAGE_PAYLOAD ~/ MIN_TX_IN_PAYLOAD) + 1;
 
-/// minTxOutPayload is the minimum payload size for a transaction output.
+/// MIN_TX_OUT_PAYLOAD is the minimum payload size for a transaction output.
 /// Value 8 bytes + Varint for PkScript length 1 byte.
 const int MIN_TX_OUT_PAYLOAD = 9;
 
-/// maxTxOutPerMessage is the maximum number of transactions outputs that
+/// MAX_TX_OUT_PER_MESSAGE is the maximum number of transactions outputs that
 /// a transaction which fits into a message could possibly have.
 const int MAX_TX_OUT_PER_MESSAGE =
     (MAX_MESSAGE_PAYLOAD ~/ MIN_TX_OUT_PAYLOAD) + 1;
@@ -42,9 +31,9 @@ const int MAX_TX_OUT_PER_MESSAGE =
 const int MAX_WITNESS_ITEM_SIZE = 11000;
 const int BASE_ENCODING = 1;
 
-// WitnessEncoding encodes all messages other than transaction messages
-// using the default Bitcoin wire protocol specification. For transaction
-// messages, the new encoding format detailed in BIP0144 will be used.
+/// WITNESS_ENCODING encodes all messages other than transaction messages
+/// using the default bitcoins wire protocol specification. For transaction
+/// messages, the new encoding format detailed in BIP0144 will be used.
 const int WITNESS_ENCODING = 2;
 
 class MsgTx {
@@ -285,7 +274,7 @@ int _readTxIn(ByteData buf, TxIn ti, int offset) {
 
 int _writeTxIn(ByteData buf, TxIn ti, int offset) {
   offset = _writeOutPoint(buf, ti.previousOutPoint, offset);
-  
+
   offset = writeVarBytes(buf, ti.signatureScript, offset);
   buf.setUint32(offset, ti.sequence, Endian.little);
   offset += 4;
@@ -305,6 +294,7 @@ int _readTxOut(ByteData buf, TxOut to, int offset) {
   offset = data[1];
   return offset;
 }
+
 /// write TxOut
 int writeTxOut(ByteData buf, TxOut to, int offset) {
   buf.setUint64(offset, to.value.toCoin().toInt(), Endian.little);

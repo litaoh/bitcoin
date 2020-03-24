@@ -1,4 +1,4 @@
-part of bitcoin.hdkeychain;
+part of bitcoins.hdkeychain;
 
 /// hash160 returns RIPEMD160(SHA256(v)).
 Uint8List hash160(Uint8List buffer) {

@@ -1,4 +1,4 @@
-part of bitcoin.wallet;
+part of bitcoins.wallet;
 
 class AccountCache implements AccountStorage {
   Map<String, AddressInfo> _bucket;

@@ -1,6 +1,4 @@
-part of bitcoin.txscript;
-
-const int MAX_OPS_PER_SCRIPT = 255;
+part of bitcoins.txscript;
 
 /// Multisig can't have more sigs than this.
 const int MAX_SCRIPT_ELEMENT_SIZE = 2048;

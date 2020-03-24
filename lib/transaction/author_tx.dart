@@ -1,4 +1,4 @@
-part of bitcoin.transaction;
+part of bitcoins.transaction;
 
 /// GENERATED_TX_VERSION is the version of the transaction being generated.
 /// It is defined as a constant here rather than using the wire.TxVersion
@@ -20,7 +20,7 @@ class AuthoredTx {
       this.prevScripts,
       this.totalInput,
       this.changeIndex,
-        this.inputValues,
+      this.inputValues,
       this.estimatedSignedSerializeSize});
 }
 
@@ -110,7 +110,6 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
     );
   }
 }
-
 
 /// _spendWitnessKeyHash generates, and sets a valid witness for spending the
 /// passed pkScript with the specified input amount. The input amount *must*

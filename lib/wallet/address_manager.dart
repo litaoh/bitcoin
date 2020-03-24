@@ -1,4 +1,4 @@
-part of bitcoin.wallet;
+part of bitcoins.wallet;
 
 const int MAX_COIN_TYPE = hdkeychain.HARDENED_KEY_START - 1; // 2^31 - 1
 const int MAX_ACCOUNY_NUM = hdkeychain.HARDENED_KEY_START - 2; // 2^31 - 2
@@ -80,6 +80,7 @@ class AddressManager {
     return acctKeyLegacyPriv;
   }
 }
+
 /// deriveAccountKey
 hdkeychain.ExtendedKey _deriveAccountKey(
     hdkeychain.ExtendedKey coinTypeKey, int account) {
@@ -91,6 +92,7 @@ hdkeychain.ExtendedKey _deriveAccountKey(
   /// Derive the account key as a child of the coin type key.
   return coinTypeKey.child(account + hdkeychain.HARDENED_KEY_START);
 }
+
 /// derive coin type key
 hdkeychain.ExtendedKey _deriveCoinTypeKey(
     hdkeychain.ExtendedKey masterNode, int coinType) {

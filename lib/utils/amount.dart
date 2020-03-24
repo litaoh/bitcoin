@@ -1,4 +1,4 @@
-part of bitcoin.utils;
+part of bitcoins.utils;
 
 /// AtomsPerCent is the number of atomic units in one coin cent.
 const int ATOMS_PER_CENT = 1000000;

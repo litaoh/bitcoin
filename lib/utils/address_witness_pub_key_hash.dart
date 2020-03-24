@@ -1,4 +1,4 @@
-part of bitcoin.utils;
+part of bitcoins.utils;
 
 class AddressWitnessPubKeyHash extends Address {
   int witnessVersion;

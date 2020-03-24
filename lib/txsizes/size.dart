@@ -1,4 +1,4 @@
-part of bitcoin.txsizes;
+part of bitcoins.txsizes;
 
 const int WITNESS_SCALE_FACTOR = 4;
 
@@ -129,7 +129,6 @@ int estimateSerializeSize(
     outputCount++;
   }
 
-// 8 additional bytes are for version and locktime
   return 8 +
       transaction.varIntSerializeSize(inputCount) +
       transaction.varIntSerializeSize(outputCount) +

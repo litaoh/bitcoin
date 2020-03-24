@@ -1,4 +1,4 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
 
 const int MAX_DATA_CARRIER_SIZE = 256;
 
@@ -28,6 +28,7 @@ bool isSmallInt(OpCode op) {
   }
   return false;
 }
+
 /// asSmallInt returns the passed opcode, which must be true according to
 /// isSmallInt(), as an integer.
 int asSmallInt(OpCode op) {
@@ -82,6 +83,7 @@ Uint8List payToAddrScript(utils.Address addr) {
   throw FormatException(
       'unable to generate payment script for unsupported address type');
 }
+
 /// isPubkey returns true if the script passed is a pay-to-pubkey transaction,
 /// false otherwise.
 bool isPubkey(List<ParsedOpcode> pops) {
@@ -90,6 +92,7 @@ bool isPubkey(List<ParsedOpcode> pops) {
       (pops[0].data.length == 33 || pops[0].data.length == 65) &&
       pops[1].opcode.value == OP_CHECKSIG;
 }
+
 /// isPubkeyHash returns true if the script passed is a pay-to-pubkey-hash
 /// transaction, false otherwise.
 bool isPubkeyHash(List<ParsedOpcode> pops) {
@@ -100,6 +103,7 @@ bool isPubkeyHash(List<ParsedOpcode> pops) {
       pops[3].opcode.value == OP_EQUALVERIFY &&
       pops[4].opcode.value == OP_CHECKSIG;
 }
+
 /// isNullData returns true if the passed script is a null data transaction,
 /// false otherwise.
 bool isNullData(List<ParsedOpcode> pops) {
@@ -113,6 +117,7 @@ bool isNullData(List<ParsedOpcode> pops) {
       (isSmallInt(pops[1].opcode) || pops[1].opcode.value <= OP_PUSHDATA4) &&
       pops[1].data.length <= MAX_DATA_CARRIER_SIZE;
 }
+
 /// scriptType returns the type of the script being inspected from the known
 /// standard types.
 int _typeOfScript(List<ParsedOpcode> pops) {

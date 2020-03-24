@@ -1,4 +1,4 @@
-part of bitcoin.wallet;
+part of bitcoins.wallet;
 
 abstract class AccountStorage {
   AccountStorage();

@@ -1,4 +1,4 @@
-library bitcoin.txsizes;
+library bitcoins.txsizes;
 
 import '../transaction/transaction.dart' as transaction;
 

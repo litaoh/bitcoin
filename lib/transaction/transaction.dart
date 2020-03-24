@@ -1,4 +1,4 @@
-library bitcoin.transaction;
+library bitcoins.transaction;
 
 import 'dart:typed_data';
 

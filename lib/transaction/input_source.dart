@@ -1,4 +1,4 @@
-part of bitcoin.transaction;
+part of bitcoins.transaction;
 
 typedef InputDetail SelectInputs(utils.Amount target);
 

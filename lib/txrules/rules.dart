@@ -1,4 +1,4 @@
-part of bitcoin.txrules;
+part of bitcoins.txrules;
 
 const double DEFAULT_RELAY_FEE_PER_KB = 1e-5;
 

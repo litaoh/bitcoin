@@ -1,4 +1,4 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
 
 /// An opcode defines the information related to a txscript opcode.  opfunc, if
 /// present, is the function to call to perform the opcode on the script.  The
@@ -265,12 +265,12 @@ const int OP_UNKNOWN246 = 0xf6; // 246
 const int OP_UNKNOWN247 = 0xf7; // 247
 const int OP_UNKNOWN248 = 0xf8; // 248
 const int OP_UNKNOWN249 = 0xf9; // 249
-const int OP_SMALLINTEGER = 0xfa; // 250 - bitcoin core internal
-const int OP_PUBKEYS = 0xfb; // 251 - bitcoin core internal
+const int OP_SMALLINTEGER = 0xfa; // 250 - bitcoins core internal
+const int OP_PUBKEYS = 0xfb; // 251 - bitcoins core internal
 const int OP_UNKNOWN252 = 0xfc; // 252
-const int OP_PUBKEYHASH = 0xfd; // 253 - bitcoin core internal
-const int OP_PUBKEY = 0xfe; // 254 - bitcoin core internal
-const int OP_INVALIDOPCODE = 0xff; // 255 - bitcoin core internal
+const int OP_PUBKEYHASH = 0xfd; // 253 - bitcoins core internal
+const int OP_PUBKEY = 0xfe; // 254 - bitcoins core internal
+const int OP_INVALIDOPCODE = 0xff; // 255 - bitcoins core internal
 
 /// Conditional execution constants.
 const int OP_COND_FALSE = 0;
@@ -1545,7 +1545,7 @@ Map<int, OpCode> opcodeArray = <int, OpCode>{
     length: 1,
   ),
 
-  // Bitcoin Core internal use opcode.  Defined here for completeness.
+  // bitcoins Core internal use opcode.  Defined here for completeness.
   OP_SMALLINTEGER: OpCode(
     value: OP_SMALLINTEGER,
     name: "OP_SMALLINTEGER",

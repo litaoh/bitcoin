@@ -1,4 +1,4 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
 
 class ScriptClosure {
   final Function _getScript;

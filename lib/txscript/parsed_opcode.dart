@@ -1,4 +1,4 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
 
 class ParsedOpcode {
   final OpCode opcode;

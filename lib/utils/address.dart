@@ -1,4 +1,5 @@
-part of bitcoin.utils;
+part of bitcoins.utils;
+
 /// encode address
 String encodeAddress(Uint8List hash, int netID) {
   var payload = Uint8List(hash.length + 1);

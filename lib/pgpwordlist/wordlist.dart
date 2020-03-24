@@ -1,4 +1,5 @@
-part of bitcoin.pgpwordlist;
+part of bitcoins.pgpwordlist;
+
 /// mnemonics
 List<String> WordList = [
   'abandon',

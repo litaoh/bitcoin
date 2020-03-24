@@ -1,4 +1,4 @@
-library bitcoin.wallet;
+library bitcoins.wallet;
 
 import 'dart:typed_data';
 

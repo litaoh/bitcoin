@@ -1,4 +1,5 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
+
 ///Padding
 List<int> _rmPadding(List<int> buf) {
   var i = 0;
@@ -11,6 +12,7 @@ List<int> _rmPadding(List<int> buf) {
   }
   return buf.sublist(i);
 }
+
 /// constructLength
 void _constructLength(List<int> arr, int len) {
   if (len < 0x80) {
@@ -24,6 +26,7 @@ void _constructLength(List<int> arr, int len) {
   }
   arr.add(len);
 }
+
 /// sigToList
 List<int> _sigToList(List<int> r, List<int> s) {
   // Pad values
@@ -52,6 +55,7 @@ List<int> _sigToList(List<int> r, List<int> s) {
   res.addAll(arr);
   return res;
 }
+
 /// ECSign
 pointycastle.ECSignature ECSign(pointycastle.ECPrivateKey key, Uint8List hash) {
   var signer = ECDSASigner(null, HMac(SHA256Digest(), 64));
@@ -66,6 +70,7 @@ pointycastle.ECSignature ECSign(pointycastle.ECPrivateKey key, Uint8List hash) {
 
   return pointycastle.ECSignature(sig.r, s);
 }
+
 /// raw TxIn witness signature
 Uint8List rawTxInWitnessSignature(
     transaction.MsgTx tx,
@@ -86,6 +91,7 @@ Uint8List rawTxInWitnessSignature(
   ret.add(hashType);
   return Uint8List.fromList(ret);
 }
+
 /// raw TxIn signature
 Uint8List rawTxInSignature(transaction.MsgTx tx, int idx, Uint8List subScript,
     int hashType, pointycastle.ECPrivateKey key) {
@@ -102,6 +108,7 @@ Uint8List rawTxInSignature(transaction.MsgTx tx, int idx, Uint8List subScript,
   ret.add(hashType);
   return Uint8List.fromList(ret);
 }
+
 /// signature script
 Uint8List signatureScript(transaction.MsgTx tx, int idx, Uint8List subScript,
     int hashType, pointycastle.ECPrivateKey privKey, bool compress) {
@@ -110,6 +117,7 @@ Uint8List signatureScript(transaction.MsgTx tx, int idx, Uint8List subScript,
   var pkScript = (hdkeychain.ecc.G * privKey.d).getEncoded(compress);
   return ScriptBuilder().addData(sig).addData(pkScript).script();
 }
+
 /// witness signature
 List<Uint8List> witnessSignature(
     transaction.MsgTx tx,
@@ -129,6 +137,7 @@ List<Uint8List> witnessSignature(
 
   return [sig, pkData];
 }
+
 /// sign
 List<dynamic> sign(chaincfg.Params net, transaction.MsgTx tx, int idx,
     Uint8List subScript, int hashType, KeyClosure kdb, ScriptClosure sdb) {
@@ -153,6 +162,7 @@ List<dynamic> sign(chaincfg.Params net, transaction.MsgTx tx, int idx,
       throw FormatException("can't sign unknown transactions");
   }
 }
+
 /// merge scripts
 Uint8List mergeScripts(
     chaincfg.Params net,
@@ -206,6 +216,7 @@ Uint8List mergeScripts(
       return prevScript;
   }
 }
+
 /// sign Tx Output
 Uint8List signTxOutput(
     chaincfg.Params net,

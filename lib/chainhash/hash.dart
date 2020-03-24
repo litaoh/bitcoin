@@ -1,4 +1,4 @@
-part of bitcoin.chainhash;
+part of bitcoins.chainhash;
 
 /// HashSize of array used to store hashes.  See Hash.
 const HASH_SIZE = 32;

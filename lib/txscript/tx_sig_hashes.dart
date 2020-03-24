@@ -1,4 +1,4 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
 
 class TxSigHashes {
   chainhash.Hash hashPrevOuts;
@@ -10,7 +10,7 @@ class TxSigHashes {
     hashOutputs = _calcHashOutputs(tx);
   }
 
-  int get length{
+  int get length {
     return hashPrevOuts.length + hashSequence.length + hashOutputs.length;
   }
 }
@@ -30,8 +30,8 @@ chainhash.Hash _calcHashPrevOuts(transaction.MsgTx tx) {
   int offset = 0;
 
   for (int i = 0; i < tx.txIn.length; i++) {
-    offset =
-        transaction.copyBytes(b, tx.txIn[i].previousOutPoint.hash.cloneBytes(), offset);
+    offset = transaction.copyBytes(
+        b, tx.txIn[i].previousOutPoint.hash.cloneBytes(), offset);
     b.setUint32(offset, tx.txIn[i].previousOutPoint.index, Endian.little);
     offset += 4;
   }

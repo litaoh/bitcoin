@@ -1,4 +1,4 @@
-part of bitcoin.txscript;
+part of bitcoins.txscript;
 
 const SIG_HASH_ALL = 0x1;
 const SIG_HASH_NONE = 0x2;
@@ -8,16 +8,17 @@ const SIG_HASH_MASK = 0x1f;
 
 /// version + OutPoint.index + sequence + lockTime + hashType
 /// + sigHashes + amount
-int _sigHashWitnessSerializeSize(List<ParsedOpcode> subScript, TxSigHashes sigHashes) {
-
+int _sigHashWitnessSerializeSize(
+    List<ParsedOpcode> subScript, TxSigHashes sigHashes) {
   var size = 4 * 5 + sigHashes.length + chainhash.HASH_SIZE + 8;
-  if(isWitnessPubKeyHash(subScript)){
+  if (isWitnessPubKeyHash(subScript)) {
     size += 6 + subScript[1].data.length;
   } else {
     size += unparseScript(subScript).length;
   }
   return size;
 }
+
 /// calcSignatureHash will, given a script and hash type for the current script
 /// engine instance, calculate the signature hash to be used for signing and
 /// verification.
@@ -78,7 +79,7 @@ Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
   return chainhash.hashB(chainhash.hashB(wbuf.buffer.asUint8List()));
 }
 
-
+///calc Witness Signature Hash
 Uint8List calcWitnessSignatureHash(
     List<ParsedOpcode> subScript,
     TxSigHashes sigHashes,
@@ -91,7 +92,8 @@ Uint8List calcWitnessSignatureHash(
   }
 
   var offset = 0;
-  ByteData sigHash = ByteData(_sigHashWitnessSerializeSize(subScript, sigHashes));
+  ByteData sigHash =
+      ByteData(_sigHashWitnessSerializeSize(subScript, sigHashes));
 
   sigHash.setUint32(offset, tx.version, Endian.little);
   offset += 4;
@@ -129,7 +131,6 @@ Uint8List calcWitnessSignatureHash(
     sigHash.setUint8(offset++, OP_EQUALVERIFY);
     sigHash.setUint8(offset++, OP_CHECKSIG);
   } else {
-
     var rawScript = unparseScript(subScript);
 
     offset = transaction.writeVarBytes(sigHash, rawScript, offset);

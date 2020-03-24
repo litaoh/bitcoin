@@ -1,4 +1,4 @@
-part of bitcoin.transaction;
+part of bitcoins.transaction;
 
 class Utxo {
   final chainhash.Hash txid;
