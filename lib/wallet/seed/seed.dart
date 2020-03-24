@@ -57,7 +57,7 @@ String generateMnemonic([int size = 16]) {
 
   var bits = _bytesToBinary(bytes) + _checksumByte(bytes);
 
-  var regex = new RegExp(r".{1,11}", caseSensitive: false, multiLine: false);
+  var regex = RegExp(r".{1,11}", caseSensitive: false, multiLine: false);
   var chunks = regex
       .allMatches(bits)
       .map((match) => match.group(0))

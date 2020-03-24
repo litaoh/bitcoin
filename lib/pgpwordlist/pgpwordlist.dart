@@ -11,8 +11,8 @@ part 'wordlist.dart';
 
 /// decode mnemonics
 Uint8List decodeMnemonics(String mnemonic) {
-  var derivator = PBKDF2KeyDerivator(new HMac(new SHA512Digest(), 128))
-    ..init(new Pbkdf2Parameters(utf8.encode('mnemonic'), 2048, 64));
+  var derivator = PBKDF2KeyDerivator(HMac(SHA512Digest(), 128))
+    ..init(Pbkdf2Parameters(utf8.encode('mnemonic'), 2048, 64));
 
-  return derivator.process(new Uint8List.fromList(mnemonic.codeUnits));
+  return derivator.process(Uint8List.fromList(mnemonic.codeUnits));
 }
