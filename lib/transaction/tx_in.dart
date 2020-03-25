@@ -36,7 +36,7 @@ class TxIn {
     /// For each element in the witness, we'll need a varint to signal the
     /// size of the element, then finally the number of bytes the element
     /// itself comprises.
-    for (int i = 0; i < witness.length; i++) {
+    for (var i = 0; i < witness.length; i++) {
       n += varIntSerializeSize(witness[i].length);
       n += witness[i].length;
     }

@@ -50,11 +50,11 @@ class Base58CheckDecoder extends Converter<String, Uint8List> {
     if (list1 == null || list2 == null) {
       return false;
     }
-    int length = list1.length;
+    var length = list1.length;
     if (length != list2.length) {
       return false;
     }
-    for (int i = 0; i < length; i++) {
+    for (var i = 0; i < length; i++) {
       if (list1[i] != list2[i]) {
         return false;
       }

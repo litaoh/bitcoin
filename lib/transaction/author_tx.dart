@@ -58,9 +58,9 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
       throw FormatException('insufficient balance');
     }
 
-    int nested = 0, p2wpkh = 0, p2pkh = 0;
-    for (int i = 0; i < inputDetail.scripts.length; i++) {
-      Uint8List pkScript = inputDetail.scripts[i];
+    var nested = 0, p2wpkh = 0, p2pkh = 0;
+    for (var i = 0; i < inputDetail.scripts.length; i++) {
+      var pkScript = inputDetail.scripts[i];
       if (txscript.isPayToScriptHash(pkScript)) {
         nested++;
       } else if (txscript.isPayToWitnessPubKeyHash(pkScript)) {
@@ -196,8 +196,8 @@ void addAllInputScripts(
     throw FormatException('tx.TxIn and prevPkScripts slices must '
         'have equal length');
   }
-  for (int i = 0; i < inputs.length; i++) {
-    Uint8List pkScript = prevPkScripts[i];
+  for (var i = 0; i < inputs.length; i++) {
+    var pkScript = prevPkScripts[i];
     if (txscript.isPayToScriptHash(pkScript)) {
       _spendNestedWitnessPubKeyHash(
           inputs[i], pkScript, inputValues[i], net, kdb, sdb, tx, hashCache, i);

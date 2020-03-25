@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('bitcoin test', () {
-    String seed =
+    var seed =
         '590b81b6bf51754e3907514801149d23578b58fcb5de3877e6d156e2388843a0a0740c4179e2dfa9d0ef99d36a262737141ad2685b1beb79d0de9ae9cc884381';
 
     test('gen mnemonic', () {

@@ -73,7 +73,7 @@ Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
       break;
   }
 
-  ByteData wbuf = ByteData(txCopy.serializeSizeStripped() + 4);
+  var wbuf = ByteData(txCopy.serializeSizeStripped() + 4);
   txCopy.serializeNoWitness(wbuf);
   wbuf.setUint32(wbuf.lengthInBytes - 4, hashType, Endian.little);
   return chainhash.hashB(chainhash.hashB(wbuf.buffer.asUint8List()));
@@ -92,13 +92,12 @@ Uint8List calcWitnessSignatureHash(
   }
 
   var offset = 0;
-  ByteData sigHash =
-      ByteData(_sigHashWitnessSerializeSize(subScript, sigHashes));
+  var sigHash = ByteData(_sigHashWitnessSerializeSize(subScript, sigHashes));
 
   sigHash.setUint32(offset, tx.version, Endian.little);
   offset += 4;
 
-  chainhash.Hash zeroHash = chainhash.Hash(Uint8List(chainhash.HASH_SIZE));
+  var zeroHash = chainhash.Hash(Uint8List(chainhash.HASH_SIZE));
 
   if (hashType & SIG_HASH_ANY_ONE_CAN_PAY == 0) {
     offset = transaction.copyBytes(

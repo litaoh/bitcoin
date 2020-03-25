@@ -1,6 +1,6 @@
 part of bitcoins.transaction;
 
-typedef InputDetail SelectInputs(utils.Amount target);
+typedef SelectInputs = InputDetail Function(utils.Amount target);
 
 class InputSource {
   final SelectInputs source;

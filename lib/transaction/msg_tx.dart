@@ -68,11 +68,11 @@ class MsgTx {
     var n = 8 +
         varIntSerializeSize(txIn.length) +
         varIntSerializeSize(txOut.length);
-    for (int i = 0; i < txIn.length; i++) {
+    for (var i = 0; i < txIn.length; i++) {
       n += txIn[i].serializeSize();
     }
 
-    for (int i = 0; i < txOut.length; i++) {
+    for (var i = 0; i < txOut.length; i++) {
       n += txOut[i].serializeSize();
     }
 
@@ -80,7 +80,7 @@ class MsgTx {
   }
 
   bool hasWitness() {
-    for (int i = 0; i < txIn.length; i++) {
+    for (var i = 0; i < txIn.length; i++) {
       if (txIn[i].witness?.isNotEmpty ?? false) {
         return true;
       }
@@ -111,7 +111,7 @@ class MsgTx {
     var data = readVarInt(buf, offset);
     var count = data[0];
     offset = data[1];
-    int flag = 0;
+    var flag = 0;
     if (count == 0) {
       flag = buf.getUint8(offset);
       offset++;
@@ -125,7 +125,7 @@ class MsgTx {
     }
     if (count > MAX_TX_IN_PER_MESSAGE) {
       throw FormatException('MsgTx.BtcDecode: '
-              'too many input transactions to fit into ' +
+          'too many input transactions to fit into '
           'max message size [count ${count}, max ${MAX_TX_IN_PER_MESSAGE}]');
     }
 
@@ -160,7 +160,7 @@ class MsgTx {
         txIn[i].witness = <Uint8List>[];
         for (var j = 0; j < witCount; j++) {
           var d = _readScript(
-              buf, MAX_WITNESS_ITEM_SIZE, offset, "script witness item");
+              buf, MAX_WITNESS_ITEM_SIZE, offset, 'script witness item');
           txIn[i].witness.add(d[0]);
           offset = d[1];
         }

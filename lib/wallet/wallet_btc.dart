@@ -48,7 +48,7 @@ class WalletBTC {
 
   utils.Address _getAddressByChild(hdkeychain.ExtendedKey xpub,
       [int index = 0]) {
-    hdkeychain.ExtendedKey key = xpub.child(index);
+    var key = xpub.child(index);
     return utils.AddressScriptHash(
       scriptHash: hdkeychain.hash160(Uint8List.fromList(
           txscript.payToAddrScript(utils.AddressWitnessPubKeyHash(

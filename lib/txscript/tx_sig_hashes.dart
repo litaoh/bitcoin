@@ -22,14 +22,14 @@ class TxSigHashes {
 /// hashing computation, reducing the complexity of validating SigHashAll inputs
 /// from  O(N^2) to O(N).
 chainhash.Hash _calcHashPrevOuts(transaction.MsgTx tx) {
-  int size = 0;
-  for (int i = 0; i < tx.txIn.length; i++) {
+  var size = 0;
+  for (var i = 0; i < tx.txIn.length; i++) {
     size += tx.txIn[i].previousOutPoint.length;
   }
-  ByteData b = ByteData(size);
-  int offset = 0;
+  var b = ByteData(size);
+  var offset = 0;
 
-  for (int i = 0; i < tx.txIn.length; i++) {
+  for (var i = 0; i < tx.txIn.length; i++) {
     offset = transaction.copyBytes(
         b, tx.txIn[i].previousOutPoint.hash.cloneBytes(), offset);
     b.setUint32(offset, tx.txIn[i].previousOutPoint.index, Endian.little);
@@ -46,9 +46,9 @@ chainhash.Hash _calcHashPrevOuts(transaction.MsgTx tx) {
 /// hashing computation, reducing the complexity of validating SigHashAll inputs
 /// from O(N^2) to O(N).
 chainhash.Hash _calcHashSequence(transaction.MsgTx tx) {
-  ByteData b = ByteData(4 * tx.txIn.length);
-  int offset = 0;
-  for (int i = 0; i < tx.txIn.length; i++) {
+  var b = ByteData(4 * tx.txIn.length);
+  var offset = 0;
+  for (var i = 0; i < tx.txIn.length; i++) {
     b.setUint32(offset, tx.txIn[i].sequence, Endian.little);
     offset += 4;
   }
@@ -62,13 +62,13 @@ chainhash.Hash _calcHashSequence(transaction.MsgTx tx) {
 /// signatures using the SigHashAll sighash type. This allows computation to be
 /// cached, reducing the total hashing complexity from O(N^2) to O(N).
 chainhash.Hash _calcHashOutputs(transaction.MsgTx tx) {
-  int size = 0;
-  for (int i = 0; i < tx.txOut.length; i++) {
+  var size = 0;
+  for (var i = 0; i < tx.txOut.length; i++) {
     size += tx.txOut[i].serializeSize();
   }
-  ByteData b = ByteData(size);
-  int offset = 0;
-  for (int i = 0; i < tx.txOut.length; i++) {
+  var b = ByteData(size);
+  var offset = 0;
+  for (var i = 0; i < tx.txOut.length; i++) {
     offset = transaction.writeTxOut(b, tx.txOut[i], offset);
   }
 

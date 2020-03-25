@@ -59,7 +59,7 @@ class AddressManager {
   ECPrivateKey privateKey(utils.Address addr) {
     var address = addr.encode();
     if (_returnedPrivKeys?.isEmpty ?? true) {
-      _returnedPrivKeys = Map();
+      _returnedPrivKeys = <String, ECPrivateKey>{};
     }
 
     if (_returnedPrivKeys.containsKey(address)) {

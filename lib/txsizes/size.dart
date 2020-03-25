@@ -109,8 +109,8 @@ const int REDEEM_P2WPKH_INPUT_WITNESS_WEIGHT = 1 + 1 + 73 + 1 + 33;
 
 /// sumOutputSerializeSizes sums up the serialized size of the supplied outputs.
 int sumOutputSerializeSizes(List<transaction.TxOut> outputs) {
-  int serializeSize = 0;
-  for (int i = 0; i < outputs.length; i++) {
+  var serializeSize = 0;
+  for (var i = 0; i < outputs.length; i++) {
     serializeSize += outputs[i].serializeSize();
   }
   return serializeSize;
@@ -122,8 +122,8 @@ int sumOutputSerializeSizes(List<transaction.TxOut> outputs) {
 /// incremented for an additional P2PKH change output if addChangeOutput is true.
 int estimateSerializeSize(
     int inputCount, List<transaction.TxOut> txOuts, bool addChangeOutput) {
-  int changeSize = 0;
-  int outputCount = txOuts.length;
+  var changeSize = 0;
+  var outputCount = txOuts.length;
   if (addChangeOutput) {
     changeSize = P2PKH_OUTPUT_SIZE;
     outputCount++;
@@ -169,7 +169,7 @@ int estimateVirtualSize(
 
   /// If this transaction has any witness inputs, we must count the
   /// witness data.
-  int witnessWeight = 0;
+  var witnessWeight = 0;
   if (numP2WPKHIns + numNestedP2WPKHIns > 0) {
     /// Additional 2 weight units for segwit marker + flag.
     witnessWeight = 2 +
