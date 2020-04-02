@@ -105,7 +105,7 @@ class WalletBTC {
   }
 
   trans.AuthoredTx _constructTransaction(
-      int account, utils.Amount amount, String to, bool spendAllFunds) {
+      int account, utils.Amount amount, String to, { bool spendAllFunds, int rate } ) {
     var outputs = <trans.TxOut>[];
     txhelpers.ChangeSource changeSource;
 
@@ -115,14 +115,18 @@ class WalletBTC {
       outputs = txhelpers.makeTxOutputs(
           [txhelpers.TransactionDestination(address: to, amount: amount)]);
     }
-    return _unsignedTransaction(account, outputs,
-        utils.Amount(txrules.DEFAULT_RELAY_FEE_PER_KB), changeSource);
+    utils.Amount fee;
+    if(rate != null){
+      fee = utils.Amount.fromUnit(BigInt.from(rate * 1e3));
+    }
+    fee ??= utils.Amount(txrules.DEFAULT_RELAY_FEE_PER_KB);
+    return _unsignedTransaction(account, outputs, fee, changeSource);
   }
 
   String transaction(int account, double amount, String to,
-      [spendAllFunds = false]) {
+      { spendAllFunds = false, int rate }) {
     var authoredTx =
-        _constructTransaction(account, utils.Amount(amount), to, spendAllFunds);
+        _constructTransaction(account, utils.Amount(amount), to, spendAllFunds: spendAllFunds, rate: rate);
 
     var getKey = txscript.KeyClosure((utils.Address addr) {
       return txscript.KeyClosureResp(

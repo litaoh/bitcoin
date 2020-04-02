@@ -8,7 +8,8 @@ class AccountCache implements AccountStorage {
   @override
   AddressInfo getAddressInfo(String address) {
     if (!(_bucket?.containsKey(address) ?? false)) {
-      throw FormatException('no address with hash $address');
+      return AddressInfo(account: 0, branch: 0, index: 0);
+//      throw FormatException('no address with hash $address');
     }
     return _bucket[address];
   }

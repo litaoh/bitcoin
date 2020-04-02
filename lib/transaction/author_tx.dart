@@ -47,9 +47,7 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
   var targetAmount = helpers.sumOutputValues(outputs);
 
   var estimatedSize = txsizes.estimateVirtualSize(0, 1, 0, outputs, true);
-
   var targetFee = txrules.feeForSerializeSize(relayFeePerKb, estimatedSize);
-
   while (true) {
     InputDetail inputDetail = fetchInputs(
         utils.Amount.fromUnit(targetAmount.toCoin() + targetFee.toCoin()));
@@ -89,9 +87,9 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
     var changeAmount = inputDetail.amount.toCoin() -
         targetAmount.toCoin() -
         maxRequiredFee.toCoin();
+
     if (changeAmount != BigInt.zero &&
-        !txrules.isDustAmount(utils.Amount.fromUnit(changeAmount),
-            txsizes.P2WPKH_PK_SCRIPT_SIZE, relayFeePerKb)) {
+        !txrules.isDustAmount(utils.Amount.fromUnit(changeAmount), utils.Amount(txrules.DEFAULT_RELAY_FEE_PER_KB))) {
       fetchChange.script();
       var changeScript = fetchChange.hash;
 

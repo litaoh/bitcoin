@@ -4,8 +4,7 @@ import 'dart:typed_data';
 
 import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/ecc/curves/secp256k1.dart';
-import 'package:pointycastle/macs/hmac.dart';
-import 'package:pointycastle/digests/ripemd160.dart';
+import 'package:hash/hash.dart' show RIPEMD160, SHA512, Hmac;
 
 import '../chainhash/chainhash.dart' as chainhash;
 

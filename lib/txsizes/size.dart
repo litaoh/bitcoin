@@ -153,7 +153,6 @@ int estimateVirtualSize(
     // We are always using P2WPKH as change output.
     changeSize = P2WPKH_OUTPUT_SIZE;
   }
-
   /// Version 4 bytes + LockTime 4 bytes + Serialized var int size for the
   /// number of transaction inputs and outputs + size of redeem scripts +
   /// the size out the serialized outputs and change.
@@ -166,19 +165,17 @@ int estimateVirtualSize(
       numNestedP2WPKHIns * REDEEM_NESTED_P2WPKH_INPUT_SIZE +
       sumOutputSerializeSizes(txOuts) +
       changeSize;
-
   /// If this transaction has any witness inputs, we must count the
   /// witness data.
   var witnessWeight = 0;
-  if (numP2WPKHIns + numNestedP2WPKHIns > 0) {
+  if ((numP2WPKHIns + numNestedP2WPKHIns) > 0) {
     /// Additional 2 weight units for segwit marker + flag.
     witnessWeight = 2 +
         transaction.varIntSerializeSize(numP2WPKHIns + numNestedP2WPKHIns) +
         numP2WPKHIns * REDEEM_P2WPKH_INPUT_WITNESS_WEIGHT +
         numNestedP2WPKHIns * REDEEM_P2WPKH_INPUT_WITNESS_WEIGHT;
   }
-
   /// We add 3 to the witness weight to make sure the result is
   /// always rounded up.
-  return baseSize + (witnessWeight + 3) ~/ WITNESS_SCALE_FACTOR;
+  return baseSize + ((witnessWeight + 3) / WITNESS_SCALE_FACTOR).ceil();
 }

@@ -1,14 +1,5 @@
 import 'package:bitcoins/bitcoins.dart' as bitcoins;
 
-int pointLength(String str) {
-  if (str?.isEmpty ?? true) {
-    return 0;
-  }
-  var idx = str.indexOf('.');
-
-  return idx < 0 ? 0 : (idx + 1 - str.length).abs();
-}
-
 void main() {
   var seed =
       '590b81b6bf51754e3907514801149d23578b58fcb5de3877e6d156e2388843a0a0740c4179e2dfa9d0ef99d36a262737141ad2685b1beb79d0de9ae9cc884381';
@@ -16,17 +7,17 @@ void main() {
       seed: bitcoins.mnemonicToSeed(seed), net: bitcoins.mainnet);
   print(wallet.getAddress(0));
 
-  /// => 367PbfsCkFvHrCK1ZC3Lo3xaEGdssrZGF3
+  /// => 3QuYJkUFjMBSdPMAC4cmKeEgeSpPBtCA4X
   wallet.from([
     {
       'txid':
           '8bfa8f66b229d91ce057e4fa7dcb26510b1d11316f8e5aa1cf1e111f0c2767ba',
       'vout': 0,
       'amount': 100000 / 1e8,
-      'address': '367PbfsCkFvHrCK1ZC3Lo3xaEGdssrZGF3'
+      'address': '3QuYJkUFjMBSdPMAC4cmKeEgeSpPBtCA4X'
     }
   ]);
-  print(wallet.transaction(0, 0.0001, '367PbfsCkFvHrCK1ZC3Lo3xaEGdssrZGF3'));
+  print(wallet.transaction(0, 0.0001, '3QuYJkUFjMBSdPMAC4cmKeEgeSpPBtCA4X'));
 
-  /// => 02000000000101ba67270c1f111ecfa15a8e6f31111d0b5126cb7dfae457e01cd929b2668ffa8b0000000017160014fb9fb211925754b81df37b3d9b75677f5eb3609fffffffff02102700000000000017a914307c944aeaa6b12b0e968434c408292f10a7a36587eb5e01000000000017a914307c944aeaa6b12b0e968434c408292f10a7a36587024830450221009c4599edfaa33dbec1269de382bf0ea91c33503bc819b094a66d7d2c7767d0b00220628d613d45ebd6ed800f516bae3814a6c8c85138dad3a31acc8709b8d04b00a1012102ea59d8804676a8bef95c4cb0df09d15c537da91598b6c206b9e80b9be9a8675d00000000
+  /// => 02000000000101ba67270c1f111ecfa15a8e6f31111d0b5126cb7dfae457e01cd929b2668ffa8b000000001716001451f9c851ba48df6ebfc8e5c6e98d5bd1d21ee6d6ffffffff02102700000000000017a914fea93f35a351a9385a1a4cc6a0a5813e30065be387eb5e01000000000017a914fea93f35a351a9385a1a4cc6a0a5813e30065be38702483045022100f477f50b98178b6bc5f4545eeb0c59a0f58afc1570c4312c03f44f8f5b4769bb0220009dd5d888b72b061fe0deec7acc1aea949e667697219b33373db2d303b51dea0121029939e358d7e2c233421760f39f8cb9985e8893de44e59f3e94bf055dfaa3302900000000
 }

@@ -5,30 +5,27 @@ import 'dart:typed_data';
 
 import 'package:bitcoins/hdkeychain/hdkeychain.dart'
     show MAX_SEED_BYTES, MIN_SEED_BYTES;
-import 'package:pointycastle/export.dart' show SHA256Digest;
+
+import 'package:hash/hash.dart' show SHA256;
 
 import '../../pgpwordlist/pgpwordlist.dart';
 import '../../utils/utils.dart' as utils;
 
 /// checksum
 String _checksumByte(Uint8List data) {
-  var digest = SHA256Digest();
-  digest.update(data, 0, data.length);
-  var out = Uint8List(digest.digestSize);
-  digest.doFinal(out, 0);
   var end = data.length * 8 ~/ 32;
-  return _bytesToBinary(Uint8List.fromList(out)).substring(0, end);
+  return _bytesToBinary(SHA256().update(data).digest()).substring(0, end);
 }
 
 /// mnemonic to Seed
 Uint8List mnemonicToSeed(String input) {
-  var words = input.trim();
+  var words = input.trim().split(' ');
   Uint8List seed;
   var len = words.length;
   if (len == 1) {
-    seed = utils.hexToBytes(words);
+    seed = utils.hexToBytes(input);
   } else if (len > 1) {
-    seed = decodeMnemonics(words);
+    seed = decodeMnemonics(input);
   }
   return seed;
 }

@@ -20,7 +20,7 @@ const int AMOUNT_ATOM = -8;
 class Amount {
   BigInt _value;
   Amount(double amount) {
-    _value = BigInt.from((amount * ATOMS_PER_COIN).ceil());
+    _value = BigInt.from((amount * ATOMS_PER_COIN).round());
   }
 
   Amount.fromUnit(this._value);

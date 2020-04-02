@@ -15,12 +15,12 @@ List<int> readVarInt(ByteData buf, [int offset = 0]) {
       min = 0x100000000;
       break;
     case 0xfe:
-      rv = buf.getUint32(offset);
+      rv = buf.getUint32(offset, Endian.little);
       offset += 4;
       min = 0x10000;
       break;
     case 0xfd:
-      rv = buf.getUint16(offset);
+      rv = buf.getUint16(offset, Endian.little);
       offset += 2;
       min = 0xfd;
       break;
@@ -47,20 +47,20 @@ int writeVarInt(ByteData buf, int val, [int offset = 0]) {
   if (val <= MAX_UINT_16) {
     buf.setUint8(offset, 0xfd);
     offset++;
-    buf.setUint16(offset, val);
+    buf.setUint16(offset, val, Endian.little);
     return offset + 2;
   }
 
   if (val <= MAX_UINT_32) {
     buf.setUint8(offset, 0xfe);
     offset++;
-    buf.setUint32(offset, val);
-    return offset + 5;
+    buf.setUint32(offset, val, Endian.little);
+    return offset + 4;
   }
-  buf.setUint32(offset, 0xff);
+  buf.setUint8(offset, 0xff);
   offset++;
 
-  buf.setUint64(offset, val);
+  buf.setUint64(offset, val, Endian.little);
   return offset + 8;
 }
 
