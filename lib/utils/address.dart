@@ -13,12 +13,25 @@ Address decodeAddress(String address) {
   var payload = Base58CheckCodec().decode(address);
   var netID = payload[0];
   var decoded = payload.sublist(1);
-  var net = chaincfg.getNet();
+  var net = _detectNetworkForAddress(netID);
 
   if (netID == net.scriptHashAddrID) {
     return AddressScriptHash(scriptHash: decoded, net: net);
+  } else if (netID == net.pubKeyHashAddrID) {
+  return AddressPubKeyHash(hash: decoded, net: net);
   }
   throw FormatException('unknown address type');
+}
+
+chaincfg.Params _detectNetworkForAddress(int netID) {
+  if (netID == chaincfg.mainnet.scriptHashAddrID ||
+      netID == chaincfg.mainnet.pubKeyHashAddrID) {
+    return chaincfg.mainnet;
+  } else if (netID == chaincfg.testnet3.scriptHashAddrID ||
+      netID == chaincfg.testnet3.pubKeyHashAddrID) {
+    return chaincfg.testnet3;
+  }
+  return null;
 }
 
 class Address {
@@ -46,7 +59,7 @@ class Address {
   }
 
   bool isForNet(chaincfg.Params net) {
-    return true;
+    return _net == net;
   }
 
   chaincfg.Params net() {

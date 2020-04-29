@@ -14,6 +14,11 @@ const int MIN_SEED_BYTES = 16; // 128 bits
 /// a master node.
 const int MAX_SEED_BYTES = 64; // 512 bits
 
+/// serializedKeyLen is the length of a serialized public or private
+/// extended key.  It consists of 4 bytes version, 1 byte depth, 4 bytes
+/// fingerprint, 4 bytes child number, 32 bytes chain code, and 33 bytes
+/// public/private key data.
+const int serializedKeyLen = 4 + 1 + 4 + 4 + 32 + 33;
 ///ecc
 final pointycastle.ECDomainParameters ecc = ECCurve_secp256k1();
 
@@ -135,6 +140,43 @@ class ExtendedKey {
 
   pointycastle.ECPrivateKey ECPrivKey() {
     return pointycastle.ECPrivateKey(utils.bytesToInt(_key), ecc);
+  }
+
+  String toBase58(Uint8List version) {
+    var buffer = ByteData(serializedKeyLen);
+    // 4 bytes: version bytes
+    var offset = 0;
+    buffer.setUint32(offset, utils.bytesToInt(version).toInt());
+    offset += 4;
+    // 1 byte: depth: 0x00 for master nodes, 0x01 for level-1 descendants, ....
+    buffer.setUint8(offset, _depth);
+    offset += 1;
+    // 4 bytes: the fingerprint of the parent's key (0x00000000 if master key)
+    for (var i = 0; i < _parentFP.length; i++) {
+      buffer.setUint8(offset, _parentFP[i]);
+      offset++;
+    }
+    // 4 bytes: child number. This is the number i in xi = xpar/i, with xi the key being serialized.
+    // This is encoded in big endian. (0x00000000 if master key)
+    buffer.setUint32(offset, _index);
+    offset += 4;
+    // 32 bytes: the chain code
+    for (var i = 0; i < _chainCode.length; i++) {
+      buffer.setUint8(offset, _chainCode[i]);
+      offset++;
+    }
+
+    // 33 bytes: the public key or private key data
+    if (_isPrivate) {
+      // 0x00 + k for private keys
+      buffer.setUint8(offset, 0);
+      offset++;
+    }
+    for (var i = 0; i < _key.length; i++) {
+      buffer.setUint8(offset, _key[i]);
+      offset++;
+    }
+    return base58check.Base58CheckCodec().encode(buffer.buffer.asUint8List());
   }
 
   static ExtendedKey fromPrivateKey(Uint8List privateKey, Uint8List chainCode,

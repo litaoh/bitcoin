@@ -3,9 +3,9 @@ part of bitcoins.txhelpers;
 class ChangeSource {
   Uint8List _hash;
   int _version;
-  ChangeSource(String address) {
-    if (address?.isNotEmpty ?? false) {
-      _hash = txscript.payToAddrScript(utils.decodeAddress(address));
+  ChangeSource(utils.Address addr) {
+    if (addr != null){
+      _hash = txscript.payToAddrScript(addr);
     }
     _version = txscript.DEFAULT_SCRIPT_VERSION;
   }

@@ -24,15 +24,3 @@ Params mainnet = Params(
   hdPublicKeyID: Uint8List.fromList([0x04, 0x88, 0xb2, 0x1e]),
   legacyCoinType: 0,
 );
-
-Params _current;
-
-/// set current network
-void setNet(Params net) {
-  _current = net;
-}
-
-/// get current network
-Params getNet() {
-  return _current ?? mainnet;
-}

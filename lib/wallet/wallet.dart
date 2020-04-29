@@ -2,6 +2,7 @@ library bitcoins.wallet;
 
 import 'dart:typed_data';
 
+import 'package:bitcoins/base58check/base58check.dart';
 import 'package:pointycastle/pointycastle.dart' show ECPrivateKey;
 
 import '../chaincfg/chaincfg.dart' as chaincfg;

@@ -3,7 +3,7 @@ part of bitcoins.txhelpers;
 class P2PKHChangeSource extends ChangeSource {
   final int account;
   final WalletBTC wallet;
-  P2PKHChangeSource({this.account, this.wallet}) : super('');
+  P2PKHChangeSource({this.account, this.wallet}) : super(null);
   @override
   void script() {
     var changeAddress = wallet.newInternalAddress(account);

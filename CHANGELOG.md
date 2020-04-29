@@ -1,4 +1,6 @@
 ## 1.0.3
+- 【NEWS】 Support for multiple addresses  
+- 【OPTIMIZE】 Optimize transactions
 - 【OPTIMIZE】 set fee
 
 ## 1.0.2
