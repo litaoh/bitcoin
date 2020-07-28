@@ -1,5 +1,6 @@
 part of bitcoins.wallet;
 
+/// Account Cache interface
 abstract class AccountCache {
   AddressInfo getAddressInfo(String address);
 

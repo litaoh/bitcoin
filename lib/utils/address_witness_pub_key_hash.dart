@@ -1,5 +1,6 @@
 part of bitcoins.utils;
 
+/// bitcoin Witness PubKey Hash address
 class AddressWitnessPubKeyHash extends Address {
   int witnessVersion;
   String hrp;

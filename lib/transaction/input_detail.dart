@@ -1,5 +1,6 @@
 part of bitcoins.transaction;
 
+/// input detail
 class InputDetail {
   final utils.Amount amount;
   final List<TxIn> inputs;

@@ -1,5 +1,6 @@
 part of bitcoins.chaincfg;
 
+/// bitcoin network params
 class Params {
   final String name;
 

@@ -3,7 +3,8 @@ library bitcoins.chaincfg;
 import 'dart:typed_data';
 part 'params.dart';
 
-Params testnet3 = Params(
+/// bitcoin testnet3 params
+final Params testnet3 = Params(
   name: 'testnet3',
   bech32HRPSegwit: 'tb',
   pubKeyHashAddrID: 0x6f,
@@ -14,7 +15,8 @@ Params testnet3 = Params(
   legacyCoinType: 1,
 );
 
-Params mainnet = Params(
+/// bitcoin mainnet params
+final Params mainnet = Params(
   name: 'mainnet',
   bech32HRPSegwit: 'bc',
   pubKeyHashAddrID: 0x00,

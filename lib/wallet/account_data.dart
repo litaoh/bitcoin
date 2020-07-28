@@ -1,5 +1,6 @@
 part of bitcoins.wallet;
 
+/// Account Data
 class AccountData {
   final hdkeychain.ExtendedKey xpub;
   final AddressBuffer albExternal;

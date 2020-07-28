@@ -1,5 +1,6 @@
 part of bitcoins.transaction;
 
+/// Out Point
 class OutPoint {
   final chainhash.Hash hash;
   final int index;

@@ -34,6 +34,7 @@ chaincfg.Params _detectNetworkForAddress(int netID) {
   return null;
 }
 
+/// bitcoin address
 class Address {
   Uint8List _hash;
   chaincfg.Params _net;

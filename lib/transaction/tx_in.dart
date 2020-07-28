@@ -1,5 +1,6 @@
 part of bitcoins.transaction;
 
+/// transaction input
 class TxIn {
   OutPoint previousOutPoint;
   int sequence;

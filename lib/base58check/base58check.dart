@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import '../chainhash/chainhash.dart' as chainhash;
 
+/// base58 codec
 class Base58CheckCodec extends Codec<Uint8List, String> {
   final Base58CheckEncoder _encoder;
   final Base58CheckDecoder _decoder;
@@ -23,6 +24,7 @@ class Base58CheckCodec extends Codec<Uint8List, String> {
   Converter<String, Uint8List> get decoder => _decoder;
 }
 
+/// base58 encoder
 class Base58CheckEncoder extends Converter<Uint8List, String> {
   const Base58CheckEncoder();
 
@@ -40,6 +42,7 @@ class Base58CheckEncoder extends Converter<Uint8List, String> {
 
 Uint8List _hash(Uint8List b) => chainhash.hashB(chainhash.hashB(b));
 
+/// base58 decoder
 class Base58CheckDecoder extends Converter<String, Uint8List> {
   const Base58CheckDecoder();
   @override

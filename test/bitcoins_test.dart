@@ -52,11 +52,12 @@ void main() {
       net: bitcoins.testnet3,
       cache: DAccountCache(),
     );
-    var pubKey= bitcoins.bytesToHex(bitcoins.payToAddrScript(
-        bitcoins.decodeAddress(wallet.getAddress(0))));
+    var pubKey = bitcoins.bytesToHex(
+        bitcoins.payToAddrScript(bitcoins.decodeAddress(wallet.getAddress(0))));
     var utxos = <bitcoins.Utxo>[
       bitcoins.Utxo.fromJSON({
-        'txid': 'baded643974a04a48c36c0e2721379a83075061fb8c28aaf9549f90f972d4d71',
+        'txid':
+            'baded643974a04a48c36c0e2721379a83075061fb8c28aaf9549f90f972d4d71',
         'vout': 0,
         'amount': 10000,
         'pubKey': pubKey

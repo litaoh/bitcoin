@@ -1,5 +1,6 @@
 part of bitcoins.wallet;
 
+/// AccountProperties
 class AccountProperties {
   final int lastUsedExternalIndex;
   final int lastUsedInternalIndex;

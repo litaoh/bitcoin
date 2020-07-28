@@ -17,6 +17,7 @@ const int AMOUNT_MILLI_COIN = -3;
 const int AMOUNT_MICRO_COIN = -6;
 const int AMOUNT_ATOM = -8;
 
+/// Amount
 class Amount {
   BigInt _value;
   Amount(BigInt amount) {
@@ -64,9 +65,9 @@ class Amount {
   }
 
   int compareTo(Amount other) {
-    if(_value < other._value){
+    if (_value < other._value) {
       return -1;
-    } else if (_value > other._value){
+    } else if (_value > other._value) {
       return 1;
     }
     return 0;

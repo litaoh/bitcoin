@@ -14,6 +14,7 @@ const int EXTERNAL_BRANCH = 0;
 /// branch.
 const int INTERNAL_BRANCH = 1;
 
+/// AddressManager
 class AddressManager {
   hdkeychain.ExtendedKey _coinTypeLegacyKeyPriv;
   Map<String, ECPrivateKey> _returnedPrivKeys;
@@ -22,8 +23,7 @@ class AddressManager {
 
   AccountCache _cache;
 
-  AddressManager(
-      {Uint8List seed, chaincfg.Params net, AccountCache cache}) {
+  AddressManager({Uint8List seed, chaincfg.Params net, AccountCache cache}) {
     _net = net;
     _cache = cache ?? DefaultAccountCache();
     _init(seed);

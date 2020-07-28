@@ -1,5 +1,6 @@
 part of bitcoins.transaction;
 
+/// transaction output
 class TxOut {
   utils.Amount value;
   Uint8List pkScript;

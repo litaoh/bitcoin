@@ -1,5 +1,6 @@
 part of bitcoins.transaction;
 
+/// Unspent Transaction Output
 class Utxo {
   chainhash.Hash txid;
   int vout;

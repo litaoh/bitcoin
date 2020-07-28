@@ -33,4 +33,3 @@ part 'account_cache.dart';
 part 'account_properties.dart';
 
 part 'wallet_btc.dart';
-

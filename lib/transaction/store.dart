@@ -1,5 +1,6 @@
 part of bitcoins.transaction;
 
+/// Store
 class Store {
   final List<Utxo> _utxos = [];
   Store();

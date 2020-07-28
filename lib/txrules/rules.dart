@@ -1,5 +1,6 @@
 part of bitcoins.txrules;
 
+/// default fee
 const int DEFAULT_RELAY_FEE_PER_KB = 1000;
 
 /// feeForSerializeSize calculates the required fee for a transaction of some

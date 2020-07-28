@@ -154,7 +154,7 @@ class WalletBTC {
   }
 
   utils.Address newInternalAddress(int account) {
-    if(!_multipleAddress){
+    if (!_multipleAddress) {
       return newExternalAddress(account);
     }
     return _nextAddress(account, INTERNAL_BRANCH, _persistReturnedChild);

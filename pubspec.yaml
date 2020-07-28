@@ -1,13 +1,13 @@
 name: bitcoins
 description: Bitcoin isolated witness dart implementation only supports isolated witness
-version: 1.0.4
+version: 1.0.5
 homepage: https://github.com/litaoh/bitcoin
 
 environment:
   sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
-  pointycastle: "^1.0.0-rc1"
+  pointycastle: ^1.0.2
   bs58: ^1.0.1
   hash: ^1.0.2
 

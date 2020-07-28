@@ -1,5 +1,6 @@
 part of bitcoins.wallet;
 
+/// DefaultAccountCache
 class DefaultAccountCache implements AccountCache {
   Map<String, AddressInfo> _bucket;
 

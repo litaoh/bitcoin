@@ -1,7 +1,7 @@
 part of bitcoins.pgpwordlist;
 
 /// mnemonics
-List<String> WordList = [
+final List<String> WordList = [
   'abandon',
   'ability',
   'able',

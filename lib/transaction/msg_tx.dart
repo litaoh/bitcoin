@@ -36,6 +36,7 @@ const int BASE_ENCODING = 1;
 /// messages, the new encoding format detailed in BIP0144 will be used.
 const int WITNESS_ENCODING = 2;
 
+/// Message transaction
 class MsgTx {
   int version;
   List<TxIn> txIn;

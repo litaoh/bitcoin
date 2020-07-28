@@ -1,5 +1,6 @@
 part of bitcoins.txhelpers;
 
+/// ChangeSource
 class ChangeSource {
   Uint8List _hash;
   int _version;

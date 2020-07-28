@@ -1,5 +1,6 @@
 part of bitcoins.wallet;
 
+/// AddressInfo
 class AddressInfo {
   final int account;
   final int branch;
