@@ -1,6 +1,6 @@
 name: bitcoins
 description: Bitcoin isolated witness dart implementation only supports isolated witness
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/litaoh/bitcoin
 
 environment:

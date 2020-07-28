@@ -1,3 +1,6 @@
+## 1.0.4
+- 【OPTIMIZE】 Optimize transactions
+
 ## 1.0.3
 - 【NEWS】 Support for multiple addresses  
 - 【OPTIMIZE】 Optimize transactions
