@@ -20,12 +20,12 @@ class AddressManager {
 
   chaincfg.Params _net;
 
-  AccountStorage _accountStorage;
+  AccountCache _cache;
 
   AddressManager(
-      {Uint8List seed, chaincfg.Params net, AccountStorage accountStorage}) {
+      {Uint8List seed, chaincfg.Params net, AccountCache cache}) {
     _net = net;
-    _accountStorage = accountStorage ?? AccountCache();
+    _cache = cache ?? DefaultAccountCache();
     _init(seed);
   }
   void _init(Uint8List seed) {
@@ -34,15 +34,15 @@ class AddressManager {
   }
 
   bool putChainedAddress(String address, int account, int branch, int index) {
-    return _accountStorage.putAddressInfo(address, account, branch, index);
+    return _cache.putAddressInfo(address, account, branch, index);
   }
 
   AddressInfo fetchAddress(String address) {
-    return _accountStorage.getAddressInfo(address);
+    return _cache.getAddressInfo(address);
   }
 
   AccountProperties getAccountProperties(int account) {
-    return _accountStorage.getAccountProperties(account) ?? AccountProperties();
+    return _cache.getAccountProperties(account) ?? AccountProperties();
   }
 
   hdkeychain.ExtendedKey deriveKeyFromPath(

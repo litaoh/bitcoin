@@ -6,10 +6,12 @@ class InputDetail {
   final List<utils.Amount> inputValues;
   final List<Uint8List> scripts;
   final List<int> redeemScriptSizes;
-  InputDetail(
-      {this.amount,
-      this.inputs,
-      this.scripts,
-      this.redeemScriptSizes,
-      this.inputValues});
+
+  InputDetail({
+    this.amount,
+    this.inputs,
+    this.scripts,
+    this.redeemScriptSizes,
+    this.inputValues,
+  });
 }

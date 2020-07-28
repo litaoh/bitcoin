@@ -5,7 +5,7 @@ import '../utils/utils.dart' show Amount;
 
 /// return output total amount
 Amount sumOutputValues(List<TxOut> outputs) {
-  var totalOutput = Amount(0);
+  var totalOutput = Amount(BigInt.zero);
   for (var i = 0; i < outputs.length; i++) {
     totalOutput += outputs[i].value;
   }

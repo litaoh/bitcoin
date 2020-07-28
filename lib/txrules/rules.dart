@@ -1,6 +1,6 @@
 part of bitcoins.txrules;
 
-const double DEFAULT_RELAY_FEE_PER_KB = 1e-5;
+const int DEFAULT_RELAY_FEE_PER_KB = 1000;
 
 /// feeForSerializeSize calculates the required fee for a transaction of some
 /// arbitrary size given a mempool's relay fee policy.
@@ -16,8 +16,9 @@ Amount feeForSerializeSize(Amount relayFeePerKb, int txSerializeSize) {
   if (fee < BigInt.zero || fee > max) {
     fee = max;
   }
-  return Amount.fromUnit(fee);
+  return Amount(fee);
 }
+
 /// isDustAmount determines whether a transaction output value and script length would
 /// cause the output to be considered dust.  Transactions with dust outputs are
 /// not standard and are rejected by mempools with default policies.

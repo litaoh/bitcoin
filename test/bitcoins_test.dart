@@ -2,10 +2,8 @@ import 'package:bitcoins/bitcoins.dart' as bitcoins;
 import 'package:bitcoins/wallet/wallet.dart';
 import 'package:test/test.dart';
 
-class AccountCache implements AccountStorage {
+class DAccountCache implements bitcoins.AccountCache {
   Map<String, AddressInfo> _bucket;
-
-  AccountCache();
 
   @override
   AddressInfo getAddressInfo(String address) {
@@ -23,7 +21,8 @@ class AccountCache implements AccountStorage {
 
   @override
   bool putAddressInfo(String address, int account, int branch, int index) {
-    print('address: ${address}, account: ${account}, branch: ${branch}, index: ${index}');
+    print(
+        'address: ${address}, account: ${account}, branch: ${branch}, index: ${index}');
     if ((_bucket?.containsKey(address) ?? false)) {
       return false;
     }
@@ -51,26 +50,26 @@ void main() {
     var wallet = bitcoins.WalletBTC(
       seed: seed,
       net: bitcoins.testnet3,
-      multipleAddress: true,
-      accountStorage: AccountCache(),
+      cache: DAccountCache(),
     );
-
-    var utxos = <Map<String, dynamic>>[
-      {
-        'txid':
-            '1d7fab3d824356de47ec8e1821768090a1947ac2d69442c245a8c7399f71aeb4',
+    var pubKey= bitcoins.bytesToHex(bitcoins.payToAddrScript(
+        bitcoins.decodeAddress(wallet.getAddress(0))));
+    var utxos = <bitcoins.Utxo>[
+      bitcoins.Utxo.fromJSON({
+        'txid': 'baded643974a04a48c36c0e2721379a83075061fb8c28aaf9549f90f972d4d71',
         'vout': 0,
-        'amount': 0.01309512,
-        'pubKey': bitcoins.bytesToHex(bitcoins.payToAddrScript(bitcoins.decodeAddress('2MxbRk54oTcntb8j1EGGAxxf8u3kFHN6kHh'))),
-      }
+        'amount': 10000,
+        'pubKey': pubKey
+      })
     ];
     test('bitcoin transaction', () {
       wallet.from(utxos);
       print(wallet.transaction(
         0,
-        0.0001,
-        '2NEbbaGpANc5ZXkEB95Uk6wHWEzAnaGudxp',
+        BigInt.from(1000),
+        wallet.getAddress(0),
         rate: 1,
+//        spendAllFunds: true,
       ));
     });
   });

@@ -9,7 +9,7 @@ class Base58CheckCodec extends Codec<Uint8List, String> {
   final Base58CheckEncoder _encoder;
   final Base58CheckDecoder _decoder;
   static Base58CheckCodec _instance;
-  factory Base58CheckCodec(){
+  factory Base58CheckCodec() {
     _instance ??= Base58CheckCodec._();
     return _instance;
   }

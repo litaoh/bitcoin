@@ -61,7 +61,7 @@ Uint8List calcSignatureHash(List<ParsedOpcode> prevOutScript, int hashType,
       txCopy.txOut = txCopy.txOut.sublist(0, idx + 1);
 
       for (var i = 0; i < idx; i++) {
-        txCopy.txOut[i].value = utils.Amount(-1);
+        txCopy.txOut[i].value = utils.Amount(BigInt.from(-1));
         txCopy.txOut[i].pkScript = null;
       }
 

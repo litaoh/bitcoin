@@ -19,6 +19,7 @@ const int MAX_SEED_BYTES = 64; // 512 bits
 /// fingerprint, 4 bytes child number, 32 bytes chain code, and 33 bytes
 /// public/private key data.
 const int serializedKeyLen = 4 + 1 + 4 + 4 + 32 + 33;
+
 ///ecc
 final pointycastle.ECDomainParameters ecc = ECCurve_secp256k1();
 

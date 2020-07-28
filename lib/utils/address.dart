@@ -18,7 +18,7 @@ Address decodeAddress(String address) {
   if (netID == net.scriptHashAddrID) {
     return AddressScriptHash(scriptHash: decoded, net: net);
   } else if (netID == net.pubKeyHashAddrID) {
-  return AddressPubKeyHash(hash: decoded, net: net);
+    return AddressPubKeyHash(hash: decoded, net: net);
   }
   throw FormatException('unknown address type');
 }

@@ -4,16 +4,15 @@ class Store {
   final List<Utxo> _utxos = [];
   Store();
 
-  void put(
-      {chainhash.Hash txid, Uint8List pubKey, int vout, utils.Amount amount}) {
-    _utxos.add(Utxo(txid: txid, pubKey: pubKey, vout: vout, amount: amount));
+  void put(Utxo utxo) {
+    _utxos.add(utxo);
   }
 
   InputSource makeInputSource() {
     if (_utxos.isEmpty) {
       throw FormatException('Utxo is empty.');
     }
-    var currentTotal = utils.Amount(0);
+    var currentTotal = utils.Amount(BigInt.zero);
     var currentInputs = <TxIn>[];
     var inputValues = <utils.Amount>[];
     var currentScripts = <Uint8List>[];

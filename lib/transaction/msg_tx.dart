@@ -41,6 +41,7 @@ class MsgTx {
   List<TxIn> txIn;
   List<TxOut> txOut;
   int lockTime;
+
   MsgTx({
     this.version,
     this.txIn,
@@ -284,12 +285,15 @@ int _writeTxIn(ByteData buf, TxIn ti, int offset) {
 /// readTxOut reads the next sequence of bytes from r as a transaction output
 /// (TxOut).
 int _readTxOut(ByteData buf, TxOut to, int offset) {
-  to.value =
-      utils.Amount.fromUnit(BigInt.from(buf.getUint32(offset, Endian.little)));
+  to.value = utils.Amount(BigInt.from(buf.getUint32(offset, Endian.little)));
   offset += 8;
 
   var data = _readScript(
-      buf, MAX_MESSAGE_PAYLOAD, offset, 'transaction input signature script');
+    buf,
+    MAX_MESSAGE_PAYLOAD,
+    offset,
+    'transaction input signature script',
+  );
   to.pkScript = data[0];
   offset = data[1];
   return offset;

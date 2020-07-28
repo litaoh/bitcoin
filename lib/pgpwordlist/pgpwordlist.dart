@@ -9,7 +9,6 @@ part 'wordlist.dart';
 Uint8List decodeMnemonics(String mnemonic) {
   return _PBKDF2Key(Uint8List.fromList(mnemonic.codeUnits),
       Uint8List.fromList('mnemonic'.codeUnits), 2048, 64, SHA512());
-
 }
 
 Uint8List _PBKDF2Key(

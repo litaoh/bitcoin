@@ -15,6 +15,7 @@ class AuthoredTx {
   List<utils.Amount> inputValues;
   int changeIndex;
   int estimatedSignedSerializeSize;
+
   AuthoredTx(
       {this.tx,
       this.prevScripts,
@@ -42,17 +43,19 @@ class AuthoredTx {
 /// output scripts are returned.  If the input source was unable to provide
 /// enough input value to pay for every output any any necessary fees, an
 /// InputSourceError is returned.
-AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
-    Function fetchInputs, txhelpers.ChangeSource fetchChange) {
+AuthoredTx unsignedTransaction(
+  List<TxOut> outputs,
+  utils.Amount relayFeePerKb,
+  Function fetchInputs,
+  txhelpers.ChangeSource fetchChange,
+) {
   var targetAmount = helpers.sumOutputValues(outputs);
 
   var estimatedSize = txsizes.estimateVirtualSize(0, 1, 0, outputs, true);
   var targetFee = txrules.feeForSerializeSize(relayFeePerKb, estimatedSize);
   while (true) {
-    InputDetail inputDetail = fetchInputs(
-        utils.Amount.fromUnit(targetAmount.toCoin() + targetFee.toCoin()));
-    if (inputDetail.amount.toCoin() <
-        targetAmount.toCoin() + targetFee.toCoin()) {
+    InputDetail inputDetail = fetchInputs(targetAmount + targetFee);
+    if (inputDetail.amount.compareTo(targetAmount + targetFee) == -1) {
       throw FormatException('insufficient balance');
     }
 
@@ -68,12 +71,20 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
       }
     }
 
-    var maxSignedSize =
-        txsizes.estimateVirtualSize(p2pkh, p2wpkh, nested, outputs, true);
-    var maxRequiredFee =
-        txrules.feeForSerializeSize(relayFeePerKb, maxSignedSize);
-    var remainingAmount = inputDetail.amount.toCoin() - targetAmount.toCoin();
-    if (remainingAmount < maxRequiredFee.toCoin()) {
+    var maxSignedSize = txsizes.estimateVirtualSize(
+      p2pkh,
+      p2wpkh,
+      nested,
+      outputs,
+      true,
+    );
+    var maxRequiredFee = txrules.feeForSerializeSize(
+      relayFeePerKb,
+      maxSignedSize,
+    );
+    var remainingAmount = inputDetail.amount - targetAmount;
+
+    if (remainingAmount.compareTo(maxRequiredFee) == -1) {
       targetFee = maxRequiredFee;
       continue;
     }
@@ -84,17 +95,18 @@ AuthoredTx unsignedTransaction(List<TxOut> outputs, utils.Amount relayFeePerKb,
       txOut: outputs,
       lockTime: 0,
     );
-    var changeAmount = inputDetail.amount.toCoin() -
-        targetAmount.toCoin() -
-        maxRequiredFee.toCoin();
+    var changeAmount = inputDetail.amount - targetAmount - maxRequiredFee;
 
-    if (changeAmount != BigInt.zero &&
-        !txrules.isDustAmount(utils.Amount.fromUnit(changeAmount), utils.Amount(txrules.DEFAULT_RELAY_FEE_PER_KB))) {
+    if (changeAmount != utils.Amount(BigInt.zero) &&
+        !txrules.isDustAmount(
+          changeAmount,
+          utils.Amount(BigInt.from(txrules.DEFAULT_RELAY_FEE_PER_KB)),
+        )) {
       fetchChange.script();
       var changeScript = fetchChange.hash;
 
       var change = TxOut(
-        value: utils.Amount.fromUnit(changeAmount),
+        value: changeAmount,
         pkScript: changeScript,
       );
       outputs.add(change);

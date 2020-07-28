@@ -19,11 +19,9 @@ const int AMOUNT_ATOM = -8;
 
 class Amount {
   BigInt _value;
-  Amount(double amount) {
-    _value = BigInt.from((amount * ATOMS_PER_COIN).round());
+  Amount(BigInt amount) {
+    _value = amount;
   }
-
-  Amount.fromUnit(this._value);
 
   double toUnit([int u = AMOUNT_ATOM]) {
     return _value / BigInt.from(10).pow(u + 8);
@@ -66,7 +64,12 @@ class Amount {
   }
 
   int compareTo(Amount other) {
-    return _value.compareTo(other.toCoin());
+    if(_value < other._value){
+      return -1;
+    } else if (_value > other._value){
+      return 1;
+    }
+    return 0;
   }
 
   Uint8List bytes() {
@@ -80,10 +83,10 @@ class Amount {
   }
 
   Amount operator +(Amount other) {
-    return Amount.fromUnit(_value + other.toCoin());
+    return Amount(_value + other._value);
   }
 
   Amount operator -(Amount other) {
-    return Amount.fromUnit(_value - other.toCoin());
+    return Amount(_value - other._value);
   }
 }

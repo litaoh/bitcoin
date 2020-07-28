@@ -4,7 +4,7 @@ class ChangeSource {
   Uint8List _hash;
   int _version;
   ChangeSource(utils.Address addr) {
-    if (addr != null){
+    if (addr != null) {
       _hash = txscript.payToAddrScript(addr);
     }
     _version = txscript.DEFAULT_SCRIPT_VERSION;

@@ -13,7 +13,6 @@ List<transaction.TxOut> makeTxOutputs(
 
 ///TransactionDestination
 transaction.TxOut makeTxOutput(TransactionDestination destination) {
-  var pkScript =
-      txscript.payToAddrScript(destination.address);
+  var pkScript = txscript.payToAddrScript(destination.address);
   return transaction.TxOut(value: destination.amount, pkScript: pkScript);
 }

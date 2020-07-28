@@ -29,12 +29,12 @@ class WalletBTC {
     bool multipleAddress,
     bool addressReuse,
     int gapLimit = 20,
-    AccountStorage accountStorage,
+    AccountCache cache,
   }) {
     _manager = AddressManager(
       seed: seed,
       net: net,
-      accountStorage: accountStorage,
+      cache: cache,
     );
     _net = net;
     _store = trans.Store();
@@ -125,9 +125,9 @@ class WalletBTC {
     var addr = utils.AddressScriptHash(
       scriptHash: hdkeychain.hash160(Uint8List.fromList(
           txscript.payToAddrScript(utils.AddressWitnessPubKeyHash(
-            hash: child.pubKeyHash,
-            net: _net,
-          )))),
+        hash: child.pubKeyHash,
+        net: _net,
+      )))),
       net: _net,
     );
 
@@ -154,21 +154,19 @@ class WalletBTC {
   }
 
   utils.Address newInternalAddress(int account) {
+    if(!_multipleAddress){
+      return newExternalAddress(account);
+    }
     return _nextAddress(account, INTERNAL_BRANCH, _persistReturnedChild);
   }
 
-  WalletBTC from(List<Map<String, dynamic>> utxos) {
+  WalletBTC from(List<trans.Utxo> utxos) {
     if (utxos?.isEmpty ?? true) {
       throw FormatException('Utxos is Empty.');
     }
 
     for (var i = 0; i < utxos.length; i++) {
-      _store.put(
-        txid: chainhash.Hash.fromString(utxos[i]['txid']),
-        vout: utxos[i]['vout'],
-        amount: utils.Amount(double.parse(utxos[i]['amount'].toString())),
-        pubKey: utils.hexToBytes(utxos[i]['pubKey']),
-      );
+      _store.put(utxos[i]);
     }
     return this;
   }
@@ -218,9 +216,9 @@ class WalletBTC {
     }
     utils.Amount fee;
     if (rate != null) {
-      fee = utils.Amount.fromUnit(BigInt.from(rate * 1e3));
+      fee = utils.Amount(BigInt.from(rate * 1e3));
     }
-    fee ??= utils.Amount(txrules.DEFAULT_RELAY_FEE_PER_KB);
+    fee ??= utils.Amount(BigInt.from(txrules.DEFAULT_RELAY_FEE_PER_KB));
     return _unsignedTransaction(
       account,
       outputs,
@@ -231,7 +229,7 @@ class WalletBTC {
 
   String transaction(
     int account,
-    double amount,
+    BigInt amount,
     String to, {
     spendAllFunds = false,
     int rate,
